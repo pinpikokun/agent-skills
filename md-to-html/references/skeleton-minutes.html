@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>会議タイトル 議事録</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #faf9f7;
+      --bg-card: #ffffff;
+      --bg-warm: #f5f0eb;
+      --bg-dark: #191919;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b6560;
+      --text-light: #9a938d;
+      --accent-warm: #c4704b;
+      --accent-green: #2d7a5f;
+      --accent-red: #b85450;
+      --border: #e8e2db;
+      --border-light: #f0ece7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    /* === Hero === */
+    .hero {
+      background: var(--bg-dark);
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(196,112,75,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+      max-width: 780px;
+      margin: 0 auto 24px;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .hero-meta-item {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .hero-meta-item .meta-label {
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* === Content === */
+    .content {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* === Section === */
+    .section {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .section h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .section h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+
+    .section p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .section ul {
+      padding-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    .section li {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    /* === Participants === */
+    .participants {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0;
+    }
+
+    .participant-tag {
+      background: var(--bg-warm);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .participant-tag.facilitator {
+      background: var(--accent-warm);
+      color: #ffffff;
+    }
+
+    /* === Decisions === */
+    .decisions {
+      margin: 24px 0;
+    }
+
+    .decision-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .decision-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #edf7f1;
+      color: var(--accent-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .decision-text {
+      font-size: 15px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* === Action Items (TODO) === */
+    .action-items {
+      margin: 24px 0;
+    }
+
+    .action-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 24px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .action-item .action-task {
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    .action-item .action-owner {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent-warm);
+      background: var(--bg-warm);
+      border-radius: 100px;
+      padding: 4px 12px;
+    }
+
+    .action-item .action-deadline {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    /* === Callout === */
+    .callout {
+      margin: 40px 0;
+      padding: 28px 32px;
+      border-radius: 12px;
+    }
+
+    .callout.note {
+      border-left: 3px solid var(--accent-warm);
+      background: #fef8f0;
+    }
+
+    .callout.warning {
+      border-left: 3px solid var(--accent-red);
+      background: #fef3ef;
+    }
+
+    .callout.improvement {
+      border-left: 3px solid var(--accent-green);
+      background: #edf7f1;
+    }
+
+    .callout p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* === Issue List === */
+    .issue-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0;
+    }
+
+    .issue-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .issue-item:last-child {
+      border-bottom: none;
+    }
+
+    /* === Table === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+
+    thead th {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border);
+      text-align: left;
+    }
+
+    tbody td {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    /* === Workflow === */
+    .workflow {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 48px 40px;
+      border-radius: 16px;
+      margin: 32px 0;
+    }
+
+    .diagram-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .workflow-steps {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .workflow-step {
+      background: var(--bg-warm);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-align: center;
+      min-width: 120px;
+      flex: 1;
+      max-width: 180px;
+    }
+
+    .workflow-step .step-number {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-warm);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .workflow-step .step-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .workflow-arrow {
+      font-size: 20px;
+      color: var(--text-light);
+      align-self: center;
+    }
+
+    /* === Conclusion === */
+    .conclusion {
+      background: var(--bg-dark);
+      border-radius: 20px;
+      padding: 48px;
+      margin: 48px 0;
+      color: #ffffff;
+    }
+
+    .conclusion h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .conclusion p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.8;
+    }
+
+    /* === Footer === */
+    .footer {
+      padding: 48px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .footer p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* === Responsive === */
+    @media (max-width: 640px) {
+      .hero { padding: 60px 0 48px; }
+      .hero h1 { font-size: 28px; }
+      .content { padding: 0 24px; }
+      .section { padding: 48px 0; }
+      .section h2 { font-size: 22px; }
+      .workflow { padding: 32px 20px; }
+      .workflow-steps { flex-direction: column; align-items: center; }
+      .workflow-arrow { transform: rotate(90deg); }
+      .conclusion { padding: 32px 24px; }
+      .action-item { grid-template-columns: 1fr; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label">MEETING MINUTES</div>
+    <h1>会議タイトル</h1>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="meta-label">DATE</span>
+        2026年3月8日 14:00-15:00
+      </div>
+      <div class="hero-meta-item">
+        <span class="meta-label">LOCATION</span>
+        会議室A / Teams
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Section 1: Participants -->
+    <div class="section">
+      <div class="section-label">PARTICIPANTS</div>
+      <h2>1. 参加者</h2>
+      <div class="participants">
+        <span class="participant-tag facilitator">田中太郎（ファシリテーター）</span>
+        <span class="participant-tag">佐藤花子</span>
+        <span class="participant-tag">鈴木一郎</span>
+        <span class="participant-tag">高橋美咲</span>
+      </div>
+    </div>
+
+    <!-- Section 2: Agenda -->
+    <div class="section">
+      <div class="section-label">AGENDA</div>
+      <h2>2. アジェンダ</h2>
+      <ul>
+        <li>進捗報告</li>
+        <li>課題の共有と対策</li>
+        <li>次回のアクション確認</li>
+      </ul>
+    </div>
+
+    <!-- Section 3: Discussion -->
+    <div class="section">
+      <div class="section-label">DISCUSSION</div>
+      <h2>3. 議論内容</h2>
+
+      <h3>3.1 進捗報告</h3>
+      <p>各担当者から進捗の報告がありました。</p>
+      <table>
+        <thead>
+          <tr>
+            <th>担当</th>
+            <th>タスク</th>
+            <th>進捗</th>
+            <th>備考</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>佐藤</td>
+            <td>要件定義</td>
+            <td>完了</td>
+            <td>レビュー済み</td>
+          </tr>
+          <tr>
+            <td>鈴木</td>
+            <td>設計書作成</td>
+            <td>80%</td>
+            <td>3/10完了予定</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>3.2 課題の共有</h3>
+      <div class="callout warning">
+        <p>テスト環境の準備が遅れており、スケジュールへの影響が懸念されます。</p>
+      </div>
+      <ul class="issue-list">
+        <li class="issue-item">課題1: テスト環境の構築が未完了（担当: 鈴木）</li>
+        <li class="issue-item">課題2: 外部APIの仕様変更への対応が必要（担当: 高橋）</li>
+      </ul>
+    </div>
+
+    <!-- Section 4: Decisions -->
+    <div class="section">
+      <div class="section-label">DECISIONS</div>
+      <h2>4. 決定事項</h2>
+      <div class="decisions">
+        <div class="decision-item">
+          <div class="decision-icon">&#10003;</div>
+          <div class="decision-text">テスト環境は3/12までに構築を完了する</div>
+        </div>
+        <div class="decision-item">
+          <div class="decision-icon">&#10003;</div>
+          <div class="decision-text">外部API変更の影響範囲を調査し、次回報告する</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Action Items -->
+    <div class="section">
+      <div class="section-label">ACTION ITEMS</div>
+      <h2>5. 次回アクション</h2>
+      <div class="action-items">
+        <div class="action-item">
+          <div class="action-task">テスト環境の構築を完了する</div>
+          <span class="action-owner">鈴木</span>
+          <span class="action-deadline">期限: 3/12</span>
+        </div>
+        <div class="action-item">
+          <div class="action-task">外部API変更の影響範囲調査</div>
+          <span class="action-owner">高橋</span>
+          <span class="action-deadline">期限: 3/15</span>
+        </div>
+        <div class="action-item">
+          <div class="action-task">設計書レビュー会の日程調整</div>
+          <span class="action-owner">田中</span>
+          <span class="action-deadline">期限: 3/10</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next Meeting -->
+    <div class="section">
+      <div class="conclusion">
+        <h2>次回会議</h2>
+        <p>2026年3月15日（金）14:00-15:00 / 会議室A</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>会議タイトル 議事録 &mdash; 2026年3月8日</p>
+  </div>
+</body>
+</html>

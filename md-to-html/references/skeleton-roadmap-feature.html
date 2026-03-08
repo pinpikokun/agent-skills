@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ロードマップタイトル</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #faf9f7;
+      --bg-card: #ffffff;
+      --bg-warm: #f5f0eb;
+      --bg-dark: #191919;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b6560;
+      --text-light: #9a938d;
+      --accent-warm: #c4704b;
+      --accent-green: #2d7a5f;
+      --accent-red: #b85450;
+      --border: #e8e2db;
+      --border-light: #f0ece7;
+
+      /* Phase colors */
+      --phase-1: #6b6560;
+      --phase-2: #c4704b;
+      --phase-3: #2d7a5f;
+      --phase-4: #5c5470;
+
+      /* Feature card colors */
+      --feat-default: #f5f0eb;
+      --feat-default-border: #e8e2db;
+      --feat-highlight: #fef8f0;
+      --feat-highlight-border: #c4704b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.8;
+      padding-top: 44px;
+    }
+
+    /* Pattern Banner */
+    .pattern-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: linear-gradient(135deg, #c4704b, #d98a6a);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      gap: 16px; padding: 10px 24px;
+      font-size: 13px; font-weight: 500; letter-spacing: 1px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    .pattern-banner-name { font-weight: 700; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
+    .pattern-banner-sep { width: 1px; height: 16px; background: rgba(255,255,255,0.4); }
+    .pattern-banner-desc { font-weight: 300; opacity: 0.9; }
+
+    /* === Hero === */
+    .hero {
+      background: var(--bg-dark);
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(196,112,75,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+      max-width: 780px;
+      margin: 0 auto 24px;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 24px;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* === Content === */
+    .content {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .content-wide {
+      max-width: 90vw;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .content-narrow {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* === Section === */
+    .section {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .section h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .section p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    /* === Status Cards === */
+    .status-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .status-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .status-card .status-label {
+      font-size: 12px;
+      color: var(--text-light);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .status-card .status-value {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .status-card .status-note {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    .status-card.on-track { border-left: 3px solid var(--accent-green); }
+    .status-card.at-risk { border-left: 3px solid var(--accent-warm); }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 6px;
+      background: var(--border-light);
+      border-radius: 100px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+    }
+
+    .progress-bar-fill.green { background: var(--accent-green); }
+    .progress-bar-fill.warm { background: var(--accent-warm); }
+
+    /* ========================================
+       Feature Release Roadmap
+       ======================================== */
+    .fr-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 32px 0;
+      overflow-x: auto;
+    }
+
+    .fr-scroll {
+      min-width: 960px;
+    }
+
+    /* --- Phase Arrows (top) --- */
+    .fr-phase-row {
+      display: flex;
+      padding: 0;
+    }
+
+    .fr-product-col {
+      min-width: 160px;
+      flex-shrink: 0;
+    }
+
+    .fr-phases {
+      display: flex;
+      flex: 1;
+    }
+
+    .fr-phase-arrow {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px 14px 28px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%, 16px 50%);
+    }
+
+    .fr-phase-arrow:first-child {
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%);
+      border-radius: 12px 0 0 0;
+    }
+
+    .fr-phase-arrow:last-child {
+      border-radius: 0 12px 0 0;
+    }
+
+    .fr-phase-arrow.p1 { background: var(--phase-1); }
+    .fr-phase-arrow.p2 { background: var(--phase-2); }
+    .fr-phase-arrow.p3 { background: var(--phase-3); }
+    .fr-phase-arrow.p4 { background: var(--phase-4); }
+
+    /* --- Milestone Row --- */
+    .fr-milestone-row {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      min-height: 56px;
+    }
+
+    .fr-milestone-area {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Vertical phase dividers */
+    .fr-milestone-area .pd {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .fr-ms {
+      position: absolute;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .fr-ms-flag {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .fr-ms-flag.warm {
+      background: var(--accent-warm);
+      color: #fff;
+    }
+
+    .fr-ms-flag.green {
+      background: var(--accent-green);
+      color: #fff;
+    }
+
+    .fr-ms-flag.dark {
+      background: var(--bg-dark);
+      color: #fff;
+    }
+
+    .fr-ms-label {
+      font-size: 10px;
+      color: var(--text-light);
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    /* --- Product Swimlane --- */
+    .fr-swimlane {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .fr-swimlane:last-child {
+      border-bottom: none;
+    }
+
+    /* Product label (left) */
+    .fr-product-label {
+      min-width: 160px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px 16px;
+      border-right: 1px solid var(--border);
+      background: var(--bg-primary);
+    }
+
+    .fr-product-name {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .fr-product-desc {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+
+    /* Feature area (right) */
+    .fr-feature-area {
+      flex: 1;
+      position: relative;
+      padding: 16px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 80px;
+    }
+
+    /* Phase dividers in feature area */
+    .fr-feature-area .pd {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Feature row (horizontal bar layout within swimlane) */
+    .fr-feat-row {
+      display: flex;
+      align-items: center;
+      position: relative;
+      height: 32px;
+      z-index: 1;
+    }
+
+    /* Feature card (positioned absolutely within row) */
+    .fr-feat {
+      position: absolute;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border: 1px solid var(--feat-default-border);
+      background: var(--feat-default);
+      color: var(--text-secondary);
+      z-index: 1;
+    }
+
+    .fr-feat.highlight {
+      background: var(--feat-highlight);
+      border-color: var(--feat-highlight-border);
+      color: var(--accent-warm);
+      font-weight: 600;
+    }
+
+    .fr-feat.done {
+      background: #edf7f1;
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    /* Category tag above feature */
+    .fr-feat-tag {
+      position: absolute;
+      top: -14px;
+      left: 0;
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-light);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    /* === Callout === */
+    .callout {
+      margin: 40px 0;
+      padding: 28px 32px;
+      border-radius: 12px;
+    }
+
+    .callout.note {
+      border-left: 3px solid var(--accent-warm);
+      background: #fef8f0;
+    }
+
+    .callout p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* === Risk Table === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+
+    thead th {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border);
+      text-align: left;
+    }
+
+    tbody td {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .badge.high { background: #fef3ef; color: var(--accent-red); }
+    .badge.medium { background: var(--bg-warm); color: var(--accent-warm); }
+    .badge.low { background: #edf7f1; color: var(--accent-green); }
+
+    /* === Legend === */
+    .legend {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: var(--bg-warm);
+      border-radius: 12px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .legend-swatch {
+      width: 32px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+    }
+
+    /* === Change Log === */
+    .changelog { margin: 24px 0; }
+
+    .changelog-entry {
+      display: flex;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 14px;
+    }
+
+    .changelog-entry:last-child { border-bottom: none; }
+    .changelog-date { color: var(--text-light); font-weight: 500; min-width: 100px; }
+    .changelog-text { color: var(--text-secondary); }
+    .changelog-author { color: var(--text-light); margin-left: auto; white-space: nowrap; }
+
+    /* === Footer === */
+    .footer {
+      padding: 48px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .footer p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* === Responsive === */
+    @media (max-width: 640px) {
+      .hero { padding: 60px 0 48px; }
+      .hero h1 { font-size: 28px; }
+      .content { padding: 0 16px; }
+      .content-wide { padding: 0 16px; }
+      .content-narrow { padding: 0 16px; }
+      .section { padding: 48px 0; }
+      .section h2 { font-size: 22px; }
+      .status-cards { grid-template-columns: repeat(2, 1fr); }
+      .legend { flex-direction: column; gap: 12px; }
+      .changelog-entry { flex-direction: column; gap: 4px; }
+      .changelog-author { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="pattern-banner">
+    <span class="pattern-banner-name">Feature</span>
+    <span class="pattern-banner-sep"></span>
+    <span class="pattern-banner-desc">シェブロンフェーズ + 製品別スイムレーン + 機能カード</span>
+  </div>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label">RELEASE ROADMAP</div>
+    <h1>制度対応リリースロードマップ</h1>
+    <div class="hero-sub">プロダクト別 機能リリース計画</div>
+    <div class="hero-meta">
+      <span class="hero-meta-item">更新日: 2026年3月8日</span>
+      <span class="hero-meta-item">対象期間: 2026年1月 〜 2027年3月</span>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Status Summary -->
+    <div class="section">
+      <div class="section-label">STATUS OVERVIEW</div>
+      <h2>現在のステータス</h2>
+      <div class="status-cards">
+        <div class="status-card on-track">
+          <div class="status-label">現在のフェーズ</div>
+          <div class="status-value">Phase 2</div>
+          <div class="status-note">機能開発</div>
+        </div>
+        <div class="status-card on-track">
+          <div class="status-label">全体進捗</div>
+          <div class="status-value">35%</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill warm" style="width: 35%"></div>
+          </div>
+        </div>
+        <div class="status-card">
+          <div class="status-label">次のマイルストーン</div>
+          <div class="status-value">6/30</div>
+          <div class="status-note">制度施行日</div>
+        </div>
+        <div class="status-card at-risk">
+          <div class="status-label">注意プロダクト</div>
+          <div class="status-value">帳票</div>
+          <div class="status-note">連携テスト遅延</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Release Roadmap -->
+  <div class="content-wide">
+    <div class="section">
+      <div class="section-label">FEATURE RELEASE ROADMAP</div>
+      <h2>プロダクト別リリース計画</h2>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-swatch" style="background: #edf7f1; border-color: var(--accent-green);"></div>対応済み</div>
+        <div class="legend-item"><div class="legend-swatch" style="background: var(--feat-default); border-color: var(--feat-default-border);"></div>開発予定</div>
+        <div class="legend-item"><div class="legend-swatch" style="background: var(--feat-highlight); border-color: var(--feat-highlight-border);"></div>重要機能</div>
+      </div>
+
+      <div class="fr-container">
+        <div class="fr-scroll">
+
+          <!--
+            4 phases layout:
+            Phase 1: 0% ~ 25%    (〜3月)
+            Phase 2: 25% ~ 50%   (4月〜6月)
+            Phase 3: 50% ~ 75%   (7月〜9月)
+            Phase 4: 75% ~ 100%  (10月〜)
+            Phase dividers at 25%, 50%, 75%
+          -->
+
+          <!-- Phase Arrows -->
+          <div class="fr-phase-row">
+            <div class="fr-product-col"></div>
+            <div class="fr-phases">
+              <div class="fr-phase-arrow p1">〜2026年3月</div>
+              <div class="fr-phase-arrow p2">2026年4月〜6月</div>
+              <div class="fr-phase-arrow p3">2026年7月〜9月</div>
+              <div class="fr-phase-arrow p4">2026年10月〜</div>
+            </div>
+          </div>
+
+          <!-- Milestone Row -->
+          <div class="fr-milestone-row">
+            <div class="fr-product-col"></div>
+            <div class="fr-milestone-area">
+              <div class="pd" style="left: 25%;"></div>
+              <div class="pd" style="left: 50%;"></div>
+              <div class="pd" style="left: 75%;"></div>
+              <div class="fr-ms" style="left: 22%;">
+                <div class="fr-ms-flag warm">2026/3/31</div>
+                <span class="fr-ms-label">届出提出期限</span>
+              </div>
+              <div class="fr-ms" style="left: 50%;">
+                <div class="fr-ms-flag green">2026/7/1</div>
+                <span class="fr-ms-label">制度施行日</span>
+              </div>
+              <div class="fr-ms" style="left: 88%;">
+                <div class="fr-ms-flag dark">2027/1/1</div>
+                <span class="fr-ms-label">完全義務化</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== Product A ===== -->
+          <div class="fr-swimlane">
+            <div class="fr-product-label">
+              <div class="fr-product-name">データ管理</div>
+              <div class="fr-product-desc">ストレージ・連携基盤</div>
+            </div>
+            <div class="fr-feature-area">
+              <div class="pd" style="left: 25%;"></div>
+              <div class="pd" style="left: 50%;"></div>
+              <div class="pd" style="left: 75%;"></div>
+              <div class="fr-feat-row">
+                <div class="fr-feat done" style="left: 2%; width: 20%;">保存要件対応の自動取込</div>
+                <div class="fr-feat" style="left: 28%; width: 18%;">フォーマット自動認識</div>
+                <div class="fr-feat highlight" style="left: 54%; width: 20%;">
+                  <span class="fr-feat-tag">データ検証</span>
+                  検証機能の対応
+                </div>
+              </div>
+              <div class="fr-feat-row">
+                <div class="fr-feat done" style="left: 5%; width: 16%;">自動読取の拡張</div>
+                <div class="fr-feat" style="left: 30%; width: 22%;">外部連携 API 対応</div>
+                <div class="fr-feat" style="left: 78%; width: 18%;">インポート・エクスポート対応</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== Product B ===== -->
+          <div class="fr-swimlane">
+            <div class="fr-product-label">
+              <div class="fr-product-name">会計処理</div>
+              <div class="fr-product-desc">仕訳・経費管理</div>
+            </div>
+            <div class="fr-feature-area">
+              <div class="pd" style="left: 25%;"></div>
+              <div class="pd" style="left: 50%;"></div>
+              <div class="pd" style="left: 75%;"></div>
+              <div class="fr-feat-row">
+                <div class="fr-feat done" style="left: 2%; width: 22%;">
+                  <span class="fr-feat-tag">制度対応</span>
+                  事業者判別機能
+                </div>
+                <div class="fr-feat highlight" style="left: 28%; width: 22%;">税額控除計算機能</div>
+                <div class="fr-feat" style="left: 56%; width: 22%;">
+                  <span class="fr-feat-tag">自動仕訳</span>
+                  仕訳入力の連動強化
+                </div>
+              </div>
+              <div class="fr-feat-row">
+                <div class="fr-feat" style="left: 26%; width: 20%;">仕訳入力・管理機能</div>
+                <div class="fr-feat" style="left: 52%; width: 20%;">取引先登録の拡張</div>
+                <div class="fr-feat" style="left: 78%; width: 20%;">年次処理対応</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== Product C ===== -->
+          <div class="fr-swimlane">
+            <div class="fr-product-label">
+              <div class="fr-product-name">申告管理</div>
+              <div class="fr-product-desc">確定申告・届出</div>
+            </div>
+            <div class="fr-feature-area">
+              <div class="pd" style="left: 25%;"></div>
+              <div class="pd" style="left: 50%;"></div>
+              <div class="pd" style="left: 75%;"></div>
+              <div class="fr-feat-row">
+                <div class="fr-feat done" style="left: 2%; width: 18%;">届出事業者の照会機能</div>
+                <div class="fr-feat highlight" style="left: 28%; width: 24%;">
+                  <span class="fr-feat-tag">制度対応</span>
+                  経過措置の自動計算
+                </div>
+                <div class="fr-feat" style="left: 78%; width: 18%;">自動仕訳化機能</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== Product D ===== -->
+          <div class="fr-swimlane">
+            <div class="fr-product-label">
+              <div class="fr-product-name">帳票発行</div>
+              <div class="fr-product-desc">請求書・納品書</div>
+            </div>
+            <div class="fr-feature-area">
+              <div class="pd" style="left: 25%;"></div>
+              <div class="pd" style="left: 50%;"></div>
+              <div class="pd" style="left: 75%;"></div>
+              <div class="fr-feat-row">
+                <div class="fr-feat done" style="left: 2%; width: 20%;">
+                  <span class="fr-feat-tag">帳票の発行</span>
+                  フォーマット対応
+                </div>
+                <div class="fr-feat highlight" style="left: 30%; width: 22%;">
+                  <span class="fr-feat-tag">帳票の発行</span>
+                  適格請求書の作成機能
+                </div>
+                <div class="fr-feat" style="left: 76%; width: 22%;">帳票組み合わせ対応</div>
+              </div>
+              <div class="fr-feat-row">
+                <div class="fr-feat" style="left: 30%; width: 22%;">
+                  <span class="fr-feat-tag">帳票の保存</span>
+                  PDF 自動保存対応
+                </div>
+                <div class="fr-feat" style="left: 56%; width: 18%;">アーカイブ検索機能</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="callout note">
+        <p>各機能の配置は予定リリース時期を示す。重要機能（オレンジ枠）は制度施行日までに完了必須。緑枠は対応済みの機能。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risks -->
+  <div class="content">
+    <div class="section">
+      <div class="section-label">RISKS</div>
+      <h2>リスクと依存関係</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>リスク</th>
+            <th>影響度</th>
+            <th>対策</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>帳票発行の連携テスト遅延</td>
+            <td><span class="badge high">高</span></td>
+            <td>テスト環境を先行整備、並行テスト実施</td>
+          </tr>
+          <tr>
+            <td>制度の解釈変更による仕様修正</td>
+            <td><span class="badge medium">中</span></td>
+            <td>法務チームと定期レビュー、設計の柔軟性確保</td>
+          </tr>
+          <tr>
+            <td>外部 API 連携先の対応遅延</td>
+            <td><span class="badge medium">中</span></td>
+            <td>代替手段の事前検討、モック連携でのテスト</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Change Log -->
+  <div class="content-narrow">
+    <div class="section">
+      <div class="section-label">CHANGE LOG</div>
+      <h2>変更履歴</h2>
+      <div class="changelog">
+        <div class="changelog-entry">
+          <span class="changelog-date">2026/03/08</span>
+          <span class="changelog-text">Phase 2 の機能追加、マイルストーン更新</span>
+          <span class="changelog-author">担当者</span>
+        </div>
+        <div class="changelog-entry">
+          <span class="changelog-date">2026/01/15</span>
+          <span class="changelog-text">初版作成</span>
+          <span class="changelog-author">担当者</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>制度対応リリースロードマップ &mdash; 最終更新: 2026年3月8日</p>
+  </div>
+</body>
+</html>

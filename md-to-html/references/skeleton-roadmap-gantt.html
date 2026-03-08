@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ロードマップタイトル</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #faf9f7;
+      --bg-card: #ffffff;
+      --bg-warm: #f5f0eb;
+      --bg-dark: #191919;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b6560;
+      --text-light: #9a938d;
+      --accent-warm: #c4704b;
+      --accent-green: #2d7a5f;
+      --accent-red: #b85450;
+      --border: #e8e2db;
+      --border-light: #f0ece7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.8;
+      padding-top: 44px;
+    }
+
+    /* Pattern Banner */
+    .pattern-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: linear-gradient(135deg, #c4704b, #d98a6a);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      gap: 16px; padding: 10px 24px;
+      font-size: 13px; font-weight: 500; letter-spacing: 1px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    .pattern-banner-name { font-weight: 700; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
+    .pattern-banner-sep { width: 1px; height: 16px; background: rgba(255,255,255,0.4); }
+    .pattern-banner-desc { font-weight: 300; opacity: 0.9; }
+
+    /* === Hero === */
+    .hero {
+      background: var(--bg-dark);
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(196,112,75,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+      max-width: 780px;
+      margin: 0 auto 24px;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* === Content === */
+    .content {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .content-wide {
+      max-width: 90vw;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .content-narrow {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* === Section === */
+    .section {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .section h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .section h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+
+    .section p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    /* === Status Summary Cards === */
+    .status-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .status-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .status-card .status-label {
+      font-size: 12px;
+      color: var(--text-light);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .status-card .status-value {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .status-card .status-note {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    .status-card.on-track { border-left: 3px solid var(--accent-green); }
+    .status-card.at-risk { border-left: 3px solid var(--accent-warm); }
+    .status-card.delayed { border-left: 3px solid var(--accent-red); }
+
+    /* === Progress Bar === */
+    .progress-bar-container {
+      width: 100%;
+      height: 6px;
+      background: var(--border-light);
+      border-radius: 100px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+    }
+
+    .progress-bar-fill.green { background: var(--accent-green); }
+    .progress-bar-fill.warm { background: var(--accent-warm); }
+    .progress-bar-fill.red { background: var(--accent-red); }
+
+    /* === CSS Gantt Chart === */
+    .gantt-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 32px 0;
+      overflow: hidden;
+    }
+
+    .gantt-header-bar {
+      background: var(--bg-dark);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .gantt-header-bar .diagram-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .gantt-legend {
+      display: flex;
+      gap: 20px;
+    }
+
+    .gantt-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.5px;
+    }
+
+    .gantt-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    .gantt-legend-dot.done { background: var(--accent-green); }
+    .gantt-legend-dot.active { background: var(--accent-warm); }
+    .gantt-legend-dot.upcoming { background: #9a938d; }
+    .gantt-legend-dot.crit { background: var(--accent-red); }
+    .gantt-legend-dot.milestone {
+      width: 8px;
+      height: 8px;
+      border-radius: 1px;
+      transform: rotate(45deg);
+      background: var(--accent-warm);
+    }
+
+    .gantt-inner {
+      padding: 0 40px 40px;
+      overflow-x: auto;
+    }
+
+    .gantt {
+      min-width: 700px;
+    }
+
+    /* Month header */
+    .gantt-months {
+      display: flex;
+      margin-left: 180px;
+    }
+
+    .gantt-month {
+      flex: 1;
+      text-align: center;
+      padding: 16px 0 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    .gantt-month::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    .gantt-month.current::after {
+      background: var(--accent-warm);
+    }
+
+    .gantt-month.current {
+      color: var(--accent-warm);
+    }
+
+    /* Today marker */
+    .gantt-body {
+      position: relative;
+    }
+
+    .gantt-today {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--accent-warm);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .gantt-today::before {
+      content: 'TODAY';
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100%);
+      font-size: 9px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1.5px;
+      background: var(--accent-warm);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .gantt-today::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 4px solid var(--accent-warm);
+    }
+
+    /* Phase group */
+    .gantt-group {
+      border-bottom: 1px solid var(--border-light);
+      padding: 4px 0;
+    }
+
+    .gantt-group:last-child {
+      border-bottom: none;
+    }
+
+    .gantt-group-header {
+      display: flex;
+      align-items: center;
+      height: 44px;
+    }
+
+    .gantt-group-label {
+      min-width: 180px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-right: 16px;
+    }
+
+    .gantt-group-stripe {
+      width: 4px;
+      height: 28px;
+      border-radius: 4px;
+    }
+
+    .gantt-group-stripe.p1 { background: var(--accent-green); }
+    .gantt-group-stripe.p2 { background: var(--accent-warm); }
+    .gantt-group-stripe.p3 { background: #7b6cb0; }
+    .gantt-group-stripe.p4 { background: var(--accent-red); }
+
+    .gantt-group-label .g-phase {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .gantt-group-label .g-name {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .gantt-group-header .gantt-bar-area {
+      flex: 1;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Phase row */
+    .gantt-phase {
+      display: flex;
+      align-items: center;
+      height: 48px;
+    }
+
+    .gantt-phase-label {
+      min-width: 180px;
+      flex-shrink: 0;
+      padding-left: 14px;
+      padding-right: 16px;
+    }
+
+    .gantt-phase-label .task-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .gantt-phase-label .task-name.ms-label {
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .gantt-phase-label .task-name.ms-label.done { color: var(--accent-green); }
+    .gantt-phase-label .task-name.ms-label.crit { color: var(--accent-red); }
+    .gantt-phase-label .task-name.ms-label.upcoming { color: var(--text-light); }
+
+    /* Bar area */
+    .gantt-bar-area {
+      flex: 1;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Month grid lines */
+    .gantt-bar-area .mg {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border-light);
+      pointer-events: none;
+    }
+
+    /* Task bar */
+    .gantt-bar {
+      position: absolute;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 11px;
+      font-weight: 600;
+      z-index: 1;
+      letter-spacing: 0.3px;
+      transition: transform 0.15s ease;
+    }
+
+    .gantt-bar:hover {
+      transform: translateY(-1px);
+    }
+
+    .gantt-bar.done {
+      background: linear-gradient(135deg, #e8f5ee 0%, #d4eddf 100%);
+      border: 1px solid rgba(45,122,95,0.3);
+      color: var(--accent-green);
+      box-shadow: 0 2px 8px rgba(45,122,95,0.1);
+    }
+
+    .gantt-bar.active {
+      background: linear-gradient(135deg, #fef3e8 0%, #fce5cf 100%);
+      border: 1px solid rgba(196,112,75,0.35);
+      color: var(--accent-warm);
+      box-shadow: 0 2px 8px rgba(196,112,75,0.15);
+    }
+
+    .gantt-bar.upcoming {
+      background: linear-gradient(135deg, #f5f0eb 0%, #ece6df 100%);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    .gantt-bar.crit {
+      background: linear-gradient(135deg, #fef0ed 0%, #fcdcd7 100%);
+      border: 1px solid rgba(184,84,80,0.3);
+      color: var(--accent-red);
+      box-shadow: 0 2px 8px rgba(184,84,80,0.1);
+    }
+
+    /* Progress indicator inside bar */
+    .gantt-bar .bar-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      border-radius: 8px 0 0 8px;
+      opacity: 0.15;
+    }
+
+    .gantt-bar.done .bar-progress { background: var(--accent-green); }
+    .gantt-bar.active .bar-progress { background: var(--accent-warm); }
+
+    .gantt-bar .bar-text {
+      position: relative;
+      z-index: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Milestone diamond */
+    .gantt-ms {
+      position: absolute;
+      z-index: 2;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .gantt-ms-diamond {
+      width: 14px;
+      height: 14px;
+      border-radius: 2px;
+      transform: rotate(45deg);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .gantt-ms-diamond.done { background: var(--accent-green); }
+    .gantt-ms-diamond.crit { background: var(--accent-red); }
+    .gantt-ms-diamond.upcoming { background: var(--text-light); }
+
+    .gantt-ms-label {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-light);
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+
+    /* === Milestone Timeline === */
+    .timeline {
+      position: relative;
+      padding-left: 40px;
+      margin: 32px 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 48px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -33px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--bg-primary);
+    }
+
+    .timeline-dot.done {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+    }
+
+    .timeline-dot.active {
+      background: var(--accent-warm);
+      border-color: var(--accent-warm);
+      box-shadow: 0 0 0 4px rgba(196,112,75,0.2);
+    }
+
+    .timeline-dot.delayed {
+      background: var(--accent-red);
+      border-color: var(--accent-red);
+      box-shadow: 0 0 0 4px rgba(184,84,80,0.2);
+    }
+
+    .timeline-dot.upcoming {
+      background: var(--bg-primary);
+      border-color: var(--border);
+    }
+
+    .timeline-phase-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .timeline-phase-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .timeline-period {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+
+    .timeline-body {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+
+    .timeline-body h4 {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-light);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .timeline-body ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+
+    .timeline-body li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .timeline-body li:last-child {
+      border-bottom: none;
+    }
+
+    .milestone-marker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .milestone-marker.done {
+      background: #edf7f1;
+      color: var(--accent-green);
+    }
+
+    .milestone-marker.active {
+      background: var(--bg-warm);
+      color: var(--accent-warm);
+    }
+
+    .milestone-marker.delayed {
+      background: #fef3ef;
+      color: var(--accent-red);
+    }
+
+    .milestone-marker.upcoming {
+      background: var(--bg-primary);
+      color: var(--text-light);
+      border: 1px solid var(--border);
+    }
+
+    .milestone-marker .marker-icon {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      transform: rotate(45deg);
+    }
+
+    .milestone-marker.done .marker-icon { background: var(--accent-green); }
+    .milestone-marker.active .marker-icon { background: var(--accent-warm); }
+    .milestone-marker.delayed .marker-icon { background: var(--accent-red); }
+    .milestone-marker.upcoming .marker-icon { background: var(--text-light); }
+
+    /* === Risk Table === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+
+    thead th {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border);
+      text-align: left;
+    }
+
+    tbody td {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .badge.high { background: #fef3ef; color: var(--accent-red); }
+    .badge.medium { background: var(--bg-warm); color: var(--accent-warm); }
+    .badge.low { background: #edf7f1; color: var(--accent-green); }
+
+    /* === Callout === */
+    .callout {
+      margin: 40px 0;
+      padding: 28px 32px;
+      border-radius: 12px;
+    }
+
+    .callout.note {
+      border-left: 3px solid var(--accent-warm);
+      background: #fef8f0;
+    }
+
+    .callout.warning {
+      border-left: 3px solid var(--accent-red);
+      background: #fef3ef;
+    }
+
+    .callout p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* === Change Log === */
+    .changelog { margin: 24px 0; }
+
+    .changelog-entry {
+      display: flex;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 14px;
+    }
+
+    .changelog-entry:last-child { border-bottom: none; }
+    .changelog-date { color: var(--text-light); font-weight: 500; min-width: 100px; }
+    .changelog-text { color: var(--text-secondary); }
+    .changelog-author { color: var(--text-light); margin-left: auto; white-space: nowrap; }
+
+    /* === Footer === */
+    .footer {
+      padding: 48px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .footer p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* === Responsive === */
+    @media (max-width: 640px) {
+      .hero { padding: 60px 0 48px; }
+      .hero h1 { font-size: 28px; }
+      .content { padding: 0 16px; }
+      .content-wide { padding: 0 16px; }
+      .content-narrow { padding: 0 16px; }
+      .section { padding: 48px 0; }
+      .section h2 { font-size: 22px; }
+      .gantt-inner { padding: 0 16px 24px; }
+      .gantt-header-bar { padding: 16px 16px; flex-direction: column; gap: 8px; }
+      .gantt-legend { flex-wrap: wrap; }
+      .status-cards { grid-template-columns: repeat(2, 1fr); }
+      .timeline { padding-left: 32px; }
+      .timeline-phase-title { font-size: 18px; }
+      .changelog-entry { flex-direction: column; gap: 4px; }
+      .changelog-author { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="pattern-banner">
+    <span class="pattern-banner-name">Gantt</span>
+    <span class="pattern-banner-sep"></span>
+    <span class="pattern-banner-desc">月単位ガントチャート + フェーズグループ + TODAY マーカー</span>
+  </div>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label">ROADMAP</div>
+    <h1>プロダクトロードマップ</h1>
+    <div class="hero-meta">
+      <span class="hero-meta-item">更新日: 2026年3月8日</span>
+      <span class="hero-meta-item">プロジェクト: サンプルプロジェクト</span>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Status Summary -->
+    <div class="section">
+      <div class="section-label">STATUS OVERVIEW</div>
+      <h2>現在のステータス</h2>
+      <div class="status-cards">
+        <div class="status-card at-risk">
+          <div class="status-label">現在のフェーズ</div>
+          <div class="status-value">Phase 2</div>
+          <div class="status-note">開発</div>
+        </div>
+        <div class="status-card on-track">
+          <div class="status-label">全体進捗</div>
+          <div class="status-value">40%</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill warm" style="width: 40%"></div>
+          </div>
+        </div>
+        <div class="status-card">
+          <div class="status-label">次のマイルストーン</div>
+          <div class="status-value">5/31</div>
+          <div class="status-note">ベータリリース</div>
+        </div>
+        <div class="status-card on-track">
+          <div class="status-label">完了マイルストーン</div>
+          <div class="status-value">1/4</div>
+          <div class="status-note">企画承認 済</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSS Gantt Chart -->
+  <div class="content-wide">
+    <div class="section">
+      <div class="section-label">TIMELINE</div>
+      <h2>タイムライン</h2>
+      <div class="gantt-container">
+        <!-- Dark header with title + legend -->
+        <div class="gantt-header-bar">
+          <div class="diagram-title">プロジェクトロードマップ</div>
+          <div class="gantt-legend">
+            <div class="gantt-legend-item"><div class="gantt-legend-dot done"></div>完了</div>
+            <div class="gantt-legend-item"><div class="gantt-legend-dot active"></div>進行中</div>
+            <div class="gantt-legend-item"><div class="gantt-legend-dot upcoming"></div>予定</div>
+            <div class="gantt-legend-item"><div class="gantt-legend-dot crit"></div>要注意</div>
+            <div class="gantt-legend-item"><div class="gantt-legend-dot milestone"></div>MS</div>
+          </div>
+        </div>
+
+        <div class="gantt-inner">
+          <!--
+            8 months: Jan〜Aug 2026 — Each month = 12.5%
+          -->
+          <div class="gantt">
+            <!-- Month Header -->
+            <div class="gantt-months">
+              <div class="gantt-month">1月</div>
+              <div class="gantt-month">2月</div>
+              <div class="gantt-month current">3月</div>
+              <div class="gantt-month">4月</div>
+              <div class="gantt-month">5月</div>
+              <div class="gantt-month">6月</div>
+              <div class="gantt-month">7月</div>
+              <div class="gantt-month">8月</div>
+            </div>
+
+            <div class="gantt-body">
+              <!-- Today marker: Mar 8 ≈ 28.2% -->
+              <div class="gantt-today" style="left: calc(180px + (100% - 180px) * 0.282);"></div>
+
+              <!-- Phase 1: 企画 -->
+              <div class="gantt-group">
+                <div class="gantt-group-header">
+                  <div class="gantt-group-label">
+                    <div class="gantt-group-stripe p1"></div>
+                    <div>
+                      <div class="g-phase">Phase 1</div>
+                      <div class="g-name">企画</div>
+                    </div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                  </div>
+                </div>
+
+                <div class="gantt-phase">
+                  <div class="gantt-phase-label">
+                    <div class="task-name">市場調査・要件定義</div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                    <div class="gantt-bar done" style="left: 1%; width: 23.5%;">
+                      <div class="bar-progress" style="width: 100%; border-radius: 8px;"></div>
+                      <span class="bar-text">市場調査・要件定義</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gantt-phase">
+                  <div class="gantt-phase-label">
+                    <div class="task-name ms-label done">企画承認</div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                    <div class="gantt-ms" style="left: 24.5%;">
+                      <div class="gantt-ms-diamond done"></div>
+                      <div class="gantt-ms-label">2/28</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phase 2: 開発 -->
+              <div class="gantt-group">
+                <div class="gantt-group-header">
+                  <div class="gantt-group-label">
+                    <div class="gantt-group-stripe p2"></div>
+                    <div>
+                      <div class="g-phase">Phase 2</div>
+                      <div class="g-name">開発</div>
+                    </div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                  </div>
+                </div>
+
+                <div class="gantt-phase">
+                  <div class="gantt-phase-label">
+                    <div class="task-name">基本機能開発</div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                    <div class="gantt-bar active" style="left: 25%; width: 37.5%;">
+                      <div class="bar-progress" style="width: 25%;"></div>
+                      <span class="bar-text">基本機能開発</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gantt-phase">
+                  <div class="gantt-phase-label">
+                    <div class="task-name ms-label crit">ベータリリース</div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                    <div class="gantt-ms" style="left: 62.5%;">
+                      <div class="gantt-ms-diamond crit"></div>
+                      <div class="gantt-ms-label">5/31</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phase 3: 検証 -->
+              <div class="gantt-group">
+                <div class="gantt-group-header">
+                  <div class="gantt-group-label">
+                    <div class="gantt-group-stripe p3"></div>
+                    <div>
+                      <div class="g-phase">Phase 3</div>
+                      <div class="g-name">検証・改善</div>
+                    </div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                  </div>
+                </div>
+
+                <div class="gantt-phase">
+                  <div class="gantt-phase-label">
+                    <div class="task-name">ベータテスト・改善</div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                    <div class="gantt-bar upcoming" style="left: 62.5%; width: 25%;">
+                      <span class="bar-text">ベータテスト・改善</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gantt-phase">
+                  <div class="gantt-phase-label">
+                    <div class="task-name ms-label upcoming">品質基準クリア</div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                    <div class="gantt-ms" style="left: 87.5%;">
+                      <div class="gantt-ms-diamond upcoming"></div>
+                      <div class="gantt-ms-label">7/31</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phase 4: リリース -->
+              <div class="gantt-group">
+                <div class="gantt-group-header">
+                  <div class="gantt-group-label">
+                    <div class="gantt-group-stripe p4"></div>
+                    <div>
+                      <div class="g-phase">Phase 4</div>
+                      <div class="g-name">リリース</div>
+                    </div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                  </div>
+                </div>
+
+                <div class="gantt-phase">
+                  <div class="gantt-phase-label">
+                    <div class="task-name">GA 準備</div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                    <div class="gantt-bar upcoming" style="left: 87.5%; width: 11.5%;">
+                      <span class="bar-text">GA 準備</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gantt-phase">
+                  <div class="gantt-phase-label">
+                    <div class="task-name ms-label upcoming">正式リリース</div>
+                  </div>
+                  <div class="gantt-bar-area">
+                    <div class="mg" style="left: 12.5%;"></div>
+                    <div class="mg" style="left: 25%;"></div>
+                    <div class="mg" style="left: 37.5%;"></div>
+                    <div class="mg" style="left: 50%;"></div>
+                    <div class="mg" style="left: 62.5%;"></div>
+                    <div class="mg" style="left: 75%;"></div>
+                    <div class="mg" style="left: 87.5%;"></div>
+                    <div class="gantt-ms" style="left: 99%;">
+                      <div class="gantt-ms-diamond upcoming"></div>
+                      <div class="gantt-ms-label">8/31</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Milestone Detail Timeline -->
+  <div class="content">
+    <div class="section">
+      <div class="section-label">MILESTONES</div>
+      <h2>フェーズ詳細</h2>
+
+      <div class="timeline">
+        <!-- Phase 1 -->
+        <div class="timeline-item">
+          <div class="timeline-dot done"></div>
+          <div class="timeline-phase-label">Phase 1</div>
+          <div class="timeline-phase-title">企画</div>
+          <div class="timeline-period">2026年1月 〜 2月</div>
+          <div class="timeline-body">
+            <h4>主な成果物</h4>
+            <ul>
+              <li>市場調査レポート</li>
+              <li>要件定義書</li>
+              <li>プロジェクト計画書</li>
+            </ul>
+            <div class="milestone-marker done">
+              <span class="marker-icon"></span>
+              企画承認 &mdash; 2月28日 達成済
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="timeline-item">
+          <div class="timeline-dot active"></div>
+          <div class="timeline-phase-label">Phase 2</div>
+          <div class="timeline-phase-title">開発</div>
+          <div class="timeline-period">2026年3月 〜 5月</div>
+          <div class="timeline-body">
+            <h4>主な成果物</h4>
+            <ul>
+              <li>基本機能の実装</li>
+              <li>API ドキュメント</li>
+              <li>内部テスト完了</li>
+            </ul>
+            <div class="milestone-marker active">
+              <span class="marker-icon"></span>
+              ベータリリース &mdash; 5月31日
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="timeline-item">
+          <div class="timeline-dot upcoming"></div>
+          <div class="timeline-phase-label">Phase 3</div>
+          <div class="timeline-phase-title">検証・改善</div>
+          <div class="timeline-period">2026年6月 〜 7月</div>
+          <div class="timeline-body">
+            <h4>主な成果物</h4>
+            <ul>
+              <li>ベータテスト結果レポート</li>
+              <li>パフォーマンス改善</li>
+              <li>ユーザーフィードバック対応</li>
+            </ul>
+            <div class="milestone-marker upcoming">
+              <span class="marker-icon"></span>
+              品質基準クリア &mdash; 7月31日
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="timeline-item">
+          <div class="timeline-dot upcoming"></div>
+          <div class="timeline-phase-label">Phase 4</div>
+          <div class="timeline-phase-title">リリース</div>
+          <div class="timeline-period">2026年8月</div>
+          <div class="timeline-body">
+            <h4>主な成果物</h4>
+            <ul>
+              <li>GA 版リリースノート</li>
+              <li>ユーザードキュメント</li>
+              <li>運用マニュアル</li>
+            </ul>
+            <div class="milestone-marker upcoming">
+              <span class="marker-icon"></span>
+              正式リリース &mdash; 8月31日
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risks -->
+  <div class="content">
+    <div class="section">
+      <div class="section-label">RISKS</div>
+      <h2>リスクと依存関係</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>リスク</th>
+            <th>影響度</th>
+            <th>対策</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>基本機能開発の遅延</td>
+            <td><span class="badge high">高</span></td>
+            <td>ベータリリース日を2週間バッファ込みで設定済み</td>
+          </tr>
+          <tr>
+            <td>外部 API 連携の仕様変更</td>
+            <td><span class="badge medium">中</span></td>
+            <td>アダプタパターンで差し替え可能にする</td>
+          </tr>
+          <tr>
+            <td>ベータテストでの重大バグ</td>
+            <td><span class="badge medium">中</span></td>
+            <td>Phase 3 に1週間の予備期間を確保</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout note">
+        <p>Phase 2 の進捗は現時点で計画通り。ベータリリースまでに API ドキュメントの整備を並行して進める。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Log -->
+  <div class="content-narrow">
+    <div class="section">
+      <div class="section-label">CHANGE LOG</div>
+      <h2>変更履歴</h2>
+      <div class="changelog">
+        <div class="changelog-entry">
+          <span class="changelog-date">2026/03/08</span>
+          <span class="changelog-text">Phase 2 進捗を更新、リスク項目を追加</span>
+          <span class="changelog-author">田中</span>
+        </div>
+        <div class="changelog-entry">
+          <span class="changelog-date">2026/02/28</span>
+          <span class="changelog-text">Phase 1 完了、企画承認マイルストーン達成</span>
+          <span class="changelog-author">田中</span>
+        </div>
+        <div class="changelog-entry">
+          <span class="changelog-date">2026/01/15</span>
+          <span class="changelog-text">初版作成</span>
+          <span class="changelog-author">田中</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>プロダクトロードマップ &mdash; 最終更新: 2026年3月8日</p>
+  </div>
+</body>
+</html>
