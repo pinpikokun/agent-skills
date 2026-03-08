@@ -1,15 +1,15 @@
 ---
 name: md-to-html
-description: Markdown ドキュメントを高品質な HTML に変換。議事録・レポート・比較資料・説明資料・WBS・ロードマップに対応し、frontmatter type に応じたレイアウトで生成する。各 type にスケルトン HTML を用意し、一貫したデザインを保証する。マルチエージェントレビューで品質を担保する。「議事録を HTML にして」「レポートを HTML 化して」「比較資料を HTML にして」「説明資料を HTML 化して」「WBS を HTML にして」「ロードマップを HTML にして」「Markdown を HTML に変換して」と依頼されたときに使用する。
+description: Markdown ドキュメントを高品質な HTML に変換。議事録・レポート・比較資料・説明資料・WBS・ロードマップに対応し、frontmatter type に応じたレイアウトで生成する。各 type にスケルトン HTML を用意し、一貫したデザインを保証する。「議事録を HTML にして」「レポートを HTML 化して」「比較資料を HTML にして」「説明資料を HTML 化して」「WBS を HTML にして」「ロードマップを HTML にして」「Markdown を HTML に変換して」と依頼されたときに使用する。
 ---
 
-# Markdown → HTML レポート変換 & マルチエージェントレビュー
+# Markdown → HTML レポート変換
 
 ## 最初にやること
 
 1. **Phase 1（参照HTMLのCSS解析）から開始する** — 変換前にデザイントークンを全行記録
-2. Phase 2（HTML変換）→ Phase 3-4（レビュー並列）→ Phase 5（修正）の順で実行
-3. 各Phaseを飛ばさないこと — Phase 1 のCSS解析なしに変換を始めない
+2. Phase 2（HTML変換）で完了
+3. Phase 1 のCSS解析なしに変換を始めないこと
 
 ## Phase 1: 参照HTMLのデザイン解析
 
@@ -109,21 +109,12 @@ MDファイルにはヘッダ・フッタ・メタ情報など目立たない箇
 
 ---
 
-## Phase 3-5: マルチエージェントレビュー & 修正
-
-HTML生成後、3つのレビューエージェント → 2つの統合判定エージェント → 修正適用の順で実行する。
-
-詳細なエージェント仕様・起動パターン・最終検証チェックリストは `references/review-agents.md` を参照。
-
----
-
 ## リファレンス
 
 | ファイル | 内容 | いつ読むか |
 |---------|------|-----------|
 | `references/design-tokens.md` | CSS変数、フォント、コンポーネント数値、バッジ注釈パターン | Phase 1（CSS解析）のとき |
 | `references/type-mappings.md` | type別の Markdown → HTML 構造マッピング、遅延時表現ルール | Phase 2（HTML変換）のとき — 該当 type のセクションだけ読む |
-| `references/review-agents.md` | Agent 1-5 の仕様、起動パターン、修正注意事項、最終検証チェックリスト | Phase 3-5（レビュー・修正）のとき |
 | `references/skeleton-report.html` | report のお手本HTML — 縦スクロール型レポート | type: report のとき |
 | `references/skeleton-minutes.html` | minutes のお手本HTML — 議事録（参加者・決定事項・TODO） | type: minutes のとき |
 | `references/skeleton-comparison.html` | comparison のお手本HTML — カードグリッド比較 | type: comparison のとき |

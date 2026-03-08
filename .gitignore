@@ -39,5 +39,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# === Test outputs ===
+00_test/
+
 # === Claude Code ===
 .claude/settings.local.json
