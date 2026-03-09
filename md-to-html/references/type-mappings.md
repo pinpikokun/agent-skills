@@ -64,17 +64,44 @@ report の構造に加え、議事録固有のコンポーネント:
 
 ---
 
-## type: wbs（`skeleton-wbs.html` を参照）
+## type: wbs（4パターンから選択）
+
+### 共通マッピング（全 layout 共通）
 
 | Markdown | HTML |
 |---|---|
 | `# タイトル` | `.hero` 内 `<h1>` |
 | 進捗サマリー | `.status-cards` 内 `.status-card`（`.on-track` / `.at-risk` / `.delayed`） |
-| ガントチャート（Markdown の表形式） | `.wbs-gantt` 内の CSS ガントチャート（日付単位グリッド、フェーズグループ、バー） |
 | WBS テーブル | `<table>` with `.phase-row` + `.badge` |
 | ステータス（完了/進行中/未着手/遅延） | `.badge.done` / `.badge.in-progress` / `.badge.not-started` / `.badge.delayed` |
 
-ガントチャートは純粋な CSS/HTML で実装する（Mermaid.js 禁止）。スケルトンの `.wbs-gantt` 構造を踏襲し、左パネル（タスク名・ステータス・開始/終了/締切・担当）と右タイムライン（日付グリッド + バー）で構成する。
+### layout: daily（`skeleton-wbs.html` を参照）
+
+| Markdown | HTML |
+|---|---|
+| ガントチャート（Markdown の表形式） | `.wbs-gantt` 内の CSS ガントチャート（**日付単位**グリッド、フェーズグループ、バー） |
+
+ガントチャートは純粋な CSS/HTML で実装する（Mermaid.js 禁止）。スケルトンの `.wbs-gantt` 構造を踏襲し、左パネル（タスク名・ステータス・開始/終了/締切・担当）と右タイムライン（日付グリッド + バー）で構成する。CSS変数 `--day-w: 30px` で1日あたりの幅を制御。
+
+### layout: weekly（`skeleton-wbs-weekly.html` を参照）
+
+| Markdown | HTML |
+|---|---|
+| ガントチャート（Markdown の表形式） | `.wbs-gantt` 内の CSS ガントチャート（**週単位**グリッド、フェーズグループ、バー） |
+
+daily と同じ構造だが、ルーラーが週単位。CSS変数 `--week-w: 100px` で1週あたりの幅を制御。ヘッダーの日付セルは `.wbs-weeks .w`（週の開始日を表示）。バーの `left` / `width` は週数ベースで計算する（例: 2週間のタスク → `width: calc(2 * var(--week-w))`、端数は小数で表現）。
+
+### layout: monthly（`skeleton-wbs-monthly.html` を参照）
+
+| Markdown | HTML |
+|---|---|
+| ガントチャート（Markdown の表形式） | `.wbs-gantt` 内の CSS ガントチャート（**月単位**グリッド、四半期ヘッダー、フェーズグループ、バー） |
+
+weekly と同じ構造だが、ルーラーが月単位。CSS変数 `--month-w: 140px` で1か月あたりの幅を制御。ヘッダーは四半期行（`.wbs-quarters .wbs-quarter-lbl`）+ 月名行（`.wbs-months-hdr .m`）の2段構成。バーの `left` / `width` は月数ベースで計算する（例: 3か月のタスク → `width: calc(3 * var(--month-w))`、端数は小数で表現）。4フェーズ以上に対応するため `.p4`（青系）のカラーも用意。
+
+### layout: table（`skeleton-wbs-table.html` を参照）
+
+ガントチャートを含まない。Hero + 進捗サマリーカード + WBS テーブルのみで構成。`.wbs-gantt` 関連の CSS・HTML は一切不要。最も軽量なレイアウト。
 
 ### WBS の遅延時 HTML 表現ルール
 

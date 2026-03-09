@@ -30,16 +30,33 @@ Markdown の YAML frontmatter に `type` フィールドがある場合、それ
 | `comparison` | カードグリッド | `references/skeleton-comparison.html` |
 | `presentation` (slide) | 横スライド遷移 | `references/skeleton-slide.html` |
 | `presentation` (spa) | SPA型カードナビ | `references/skeleton-spa.html` |
-| `wbs` | ガントチャート + WBS テーブル | `references/skeleton-wbs.html` |
+| `wbs` | 4パターンから選択 | `references/skeleton-wbs-*.html`（下記参照） |
 | `roadmap` | 5パターンから選択 | `references/skeleton-roadmap-*.html`（下記参照） |
 
 - frontmatter がない、または `type` が未指定の場合は `report` として扱う
 - `type: presentation` の場合、`layout` フィールドで形式を決定:
   - `layout: slide` → 横スライド型（左右矢印ナビ）
   - `layout: spa` → SPA型（カードナビゲーション）
+- `type: wbs` の場合、`layout` フィールドでパターンを決定（下記参照）
 - `type: roadmap` の場合、`layout` フィールドでパターンを決定（下記参照）
 - **すべての type でスケルトン HTML をお手本として読み込み、同じ構造・CSS で生成する**
 - **Mermaid.js の使用は禁止** — ガントチャート・タイムライン等はすべて純粋な CSS/HTML で実装する。`<script src="mermaid...">` や `<pre class="mermaid">` は使用しない
+
+### wbs パターン一覧
+
+| layout | スケルトン | 特徴 | 適するケース |
+|---|---|---|---|
+| `daily`（デフォルト） | `skeleton-wbs.html` | CSSガントチャート（日付単位グリッド、TODAY マーカー）+ WBS テーブル | 開発期間が2か月以内の短期プロジェクト |
+| `weekly` | `skeleton-wbs-weekly.html` | CSSガントチャート（週単位グリッド、TODAY マーカー）+ WBS テーブル | 開発期間が2か月超の中長期プロジェクト。日付単位より生成が軽量 |
+| `monthly` | `skeleton-wbs-monthly.html` | CSSガントチャート（月単位グリッド、四半期ヘッダー、TODAY マーカー）+ WBS テーブル | 開発期間が半年以上の大規模プロジェクト。最もコンパクトなガントチャート |
+| `table` | `skeleton-wbs-table.html` | WBS テーブルのみ（ガントチャート無し） | 開発期間が長い、またはスケジュール可視化が不要なケース。最も軽量 |
+
+### wbs layout 選択フロー
+
+1. frontmatter に `layout` が **指定されている** → そのパターンで変換
+2. frontmatter に `layout` が **未指定** → 開発期間から自動判定:
+   - 開発期間が **2か月以内** → `daily`（日付単位ガントチャート）
+   - 開発期間が **2か月超** → ユーザーに `weekly`、`monthly`、`table` を提案する。日付単位ガントチャート（`daily`）は期間が長いと生成時間・トークン消費が大きくなるため、これらから選択するよう案内する。目安: 2〜6か月は `weekly`、半年以上は `monthly` が適切
 
 ### roadmap パターン一覧
 
@@ -120,7 +137,10 @@ MDファイルにはヘッダ・フッタ・メタ情報など目立たない箇
 | `references/skeleton-comparison.html` | comparison のお手本HTML — カードグリッド比較 | type: comparison のとき |
 | `references/skeleton-slide.html` | presentation (slide) のお手本HTML — 横スライド型 | type: presentation, layout: slide のとき |
 | `references/skeleton-spa.html` | presentation (spa) のお手本HTML — SPA型カードナビ | type: presentation, layout: spa のとき |
-| `references/skeleton-wbs.html` | wbs のお手本HTML — ガントチャート + WBS テーブル | type: wbs のとき |
+| `references/skeleton-wbs.html` | wbs (daily) のお手本HTML — 日付単位ガントチャート + WBS テーブル | type: wbs, layout: daily のとき |
+| `references/skeleton-wbs-weekly.html` | wbs (weekly) のお手本HTML — 週単位ガントチャート + WBS テーブル | type: wbs, layout: weekly のとき |
+| `references/skeleton-wbs-monthly.html` | wbs (monthly) のお手本HTML — 月単位ガントチャート + WBS テーブル | type: wbs, layout: monthly のとき |
+| `references/skeleton-wbs-table.html` | wbs (table) のお手本HTML — WBS テーブルのみ | type: wbs, layout: table のとき |
 | `references/skeleton-roadmap-gantt.html` | roadmap のお手本HTML — CSSガントチャート | type: roadmap のとき |
 | `references/skeleton-roadmap-timeline.html` | roadmap のお手本HTML — 水平タイムライン + KPI | type: roadmap のとき |
 | `references/skeleton-roadmap-swimlane.html` | roadmap のお手本HTML — スイムレーン | type: roadmap のとき |
