@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>調査レポートタイトル</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #faf9f7;
+      --bg-card: #ffffff;
+      --bg-warm: #f5f0eb;
+      --bg-dark: #191919;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b6560;
+      --text-light: #9a938d;
+      --accent-warm: #c4704b;
+      --accent-green: #2d7a5f;
+      --accent-red: #b85450;
+      --border: #e8e2db;
+      --border-light: #f0ece7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    /* === Hero === */
+    .hero {
+      background: var(--bg-dark);
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(196,112,75,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+      max-width: 780px;
+      margin: 0 auto 24px;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* === Content === */
+    .content {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* === Section === */
+    .section {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .section h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .section h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+
+    .section p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .section ul {
+      padding-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    .section li {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    /* === Callout === */
+    .callout {
+      margin: 40px 0;
+      padding: 28px 32px;
+      border-radius: 12px;
+    }
+
+    .callout.note {
+      border-left: 3px solid var(--accent-warm);
+      background: #fef8f0;
+    }
+
+    .callout.warning {
+      border-left: 3px solid var(--accent-red);
+      background: #fef3ef;
+    }
+
+    .callout.improvement {
+      border-left: 3px solid var(--accent-green);
+      background: #edf7f1;
+    }
+
+    .callout p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* === Overview Cards === */
+    .overview-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .overview-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 32px;
+      text-align: center;
+    }
+
+    .overview-card .card-label {
+      font-size: 12px;
+      color: var(--text-light);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .overview-card .card-value {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .overview-card .card-note {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    /* === Table === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+
+    thead th {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border);
+      text-align: left;
+    }
+
+    tbody td {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    /* === Badge === */
+    .card-badge {
+      display: inline-block;
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .card-badge.good {
+      background: #edf7f1;
+      color: var(--accent-green);
+    }
+
+    .card-badge.warn {
+      background: #fef3ef;
+      color: var(--accent-red);
+    }
+
+    .card-badge.neutral {
+      background: var(--bg-warm);
+      color: var(--accent-warm);
+    }
+
+    /* === Workflow === */
+    .workflow {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 48px 40px;
+      border-radius: 16px;
+      margin: 32px 0;
+    }
+
+    .diagram-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .workflow-steps {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .workflow-step {
+      background: var(--bg-warm);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-align: center;
+      min-width: 120px;
+      flex: 1;
+      max-width: 180px;
+    }
+
+    .workflow-step .step-number {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-warm);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .workflow-step .step-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .workflow-arrow {
+      font-size: 20px;
+      color: var(--text-light);
+      align-self: center;
+    }
+
+    /* === Conclusion === */
+    .conclusion {
+      background: var(--bg-dark);
+      border-radius: 20px;
+      padding: 48px;
+      margin: 48px 0;
+      color: #ffffff;
+    }
+
+    .conclusion h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .conclusion p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.8;
+    }
+
+    .conclusion .action {
+      margin-top: 24px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+
+    .conclusion .action-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-warm);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .conclusion .action p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      margin: 0;
+    }
+
+    /* === Reference Links === */
+    .reference-links {
+      margin: 24px 0;
+    }
+
+    .reference-links a {
+      color: var(--accent-warm);
+      text-decoration: none;
+    }
+
+    .reference-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* === Footer === */
+    .footer {
+      padding: 48px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .footer p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* === Responsive === */
+    @media (max-width: 640px) {
+      .hero { padding: 60px 0 48px; }
+      .hero h1 { font-size: 28px; }
+      .content { padding: 0 24px; }
+      .section { padding: 48px 0; }
+      .section h2 { font-size: 22px; }
+      .workflow { padding: 32px 20px; }
+      .workflow-steps { flex-direction: column; align-items: center; }
+      .workflow-arrow { transform: rotate(90deg); }
+      .conclusion { padding: 32px 24px; }
+      .overview-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label">INVESTIGATION REPORT</div>
+    <h1>調査レポートのタイトル</h1>
+    <div class="hero-meta">
+      <span class="hero-meta-item">調査日: 2026年3月8日</span>
+      <span class="hero-meta-item">作成者: 担当者名</span>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Section 1: Background -->
+    <div class="section">
+      <div class="section-label">BACKGROUND</div>
+      <h2>1. 背景</h2>
+      <p>なぜこの調査を行ったのか、背景と経緯を記述します。</p>
+    </div>
+
+    <!-- Section 2: Executive Summary -->
+    <div class="section">
+      <div class="section-label">EXECUTIVE SUMMARY</div>
+      <h2>2. 結論（エグゼクティブサマリー）</h2>
+      <div class="callout note">
+        <p>調査結果の要点を簡潔にまとめます。忙しい読み手はここだけ読みます。</p>
+      </div>
+      <div class="overview-cards">
+        <div class="overview-card">
+          <div class="card-label">KPI 1</div>
+          <div class="card-value">95%</div>
+          <div class="card-note">前月比 +5%</div>
+        </div>
+        <div class="overview-card">
+          <div class="card-label">KPI 2</div>
+          <div class="card-value">128件</div>
+          <div class="card-note">目標達成</div>
+        </div>
+        <div class="overview-card">
+          <div class="card-label">KPI 3</div>
+          <div class="card-value">3.2h</div>
+          <div class="card-note">平均処理時間</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Details -->
+    <div class="section">
+      <div class="section-label">FINDINGS</div>
+      <h2>3. 調査結果の詳細</h2>
+
+      <h3>3.1 観点A</h3>
+      <p>調査の観点Aに関する詳細な説明です。</p>
+      <table>
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>現状</th>
+            <th>目標</th>
+            <th>判定</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>項目1</td>
+            <td>値A</td>
+            <td>値B</td>
+            <td><span class="card-badge good">達成</span></td>
+          </tr>
+          <tr>
+            <td>項目2</td>
+            <td>値C</td>
+            <td>値D</td>
+            <td><span class="card-badge warn">未達</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>3.2 観点B</h3>
+      <p>調査の観点Bに関する詳細な説明です。</p>
+      <div class="callout warning">
+        <p>注意すべきポイントや課題をここに記述します。</p>
+      </div>
+
+      <!-- Workflow Diagram -->
+      <div class="workflow">
+        <div class="diagram-title">処理フロー</div>
+        <div class="workflow-steps">
+          <div class="workflow-step">
+            <div class="step-number">STEP 1</div>
+            <div class="step-label">データ取得</div>
+          </div>
+          <div class="workflow-arrow">&rarr;</div>
+          <div class="workflow-step">
+            <div class="step-number">STEP 2</div>
+            <div class="step-label">分析・加工</div>
+          </div>
+          <div class="workflow-arrow">&rarr;</div>
+          <div class="workflow-step">
+            <div class="step-number">STEP 3</div>
+            <div class="step-label">レポート出力</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conclusion -->
+    <div class="section">
+      <div class="conclusion">
+        <h2>結論と次のアクション</h2>
+        <p>調査結果から導かれる結論をここにまとめます。</p>
+        <div class="action">
+          <div class="action-label">NEXT ACTION</div>
+          <p>具体的な次のアクション内容を記述します。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reference Links -->
+    <div class="section">
+      <div class="section-label">REFERENCES</div>
+      <h2>参考リンク</h2>
+      <table class="reference-links">
+        <thead>
+          <tr>
+            <th>情報源</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>参考資料1</td>
+            <td><a href="#">https://example.com/doc1</a></td>
+          </tr>
+          <tr>
+            <td>参考資料2</td>
+            <td><a href="#">https://example.com/doc2</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>調査レポートのタイトル &mdash; 2026年3月8日</p>
+  </div>
+</body>
+</html>

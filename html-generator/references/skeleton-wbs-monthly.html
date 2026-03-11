@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WBS タイトル</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #faf9f7;
+      --bg-card: #ffffff;
+      --bg-warm: #f5f0eb;
+      --bg-dark: #191919;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b6560;
+      --text-light: #9a938d;
+      --accent-warm: #c4704b;
+      --accent-green: #2d7a5f;
+      --accent-red: #b85450;
+      --border: #e8e2db;
+      --border-light: #f0ece7;
+      --month-w: 140px;
+      --left-w: 480px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    /* === Hero === */
+    .hero {
+      background: var(--bg-dark);
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(196,112,75,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+      max-width: 780px;
+      margin: 0 auto 24px;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* === Content === */
+    .content {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .content-wide {
+      max-width: 90vw;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .content-narrow {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* === Section === */
+    .section {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .section h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .section h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+
+    .section p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    /* === Status Summary Cards === */
+    .status-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .status-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .status-card .status-label {
+      font-size: 12px;
+      color: var(--text-light);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .status-card .status-value {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .status-card .status-note {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    .status-card.on-track {
+      border-left: 3px solid var(--accent-green);
+    }
+
+    .status-card.at-risk {
+      border-left: 3px solid var(--accent-warm);
+    }
+
+    .status-card.delayed {
+      border-left: 3px solid var(--accent-red);
+    }
+
+    /* === Progress Bar === */
+    .progress-bar-container {
+      width: 100%;
+      height: 6px;
+      background: var(--border-light);
+      border-radius: 100px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      transition: width 0.3s;
+    }
+
+    .progress-bar-fill.green { background: var(--accent-green); }
+    .progress-bar-fill.warm { background: var(--accent-warm); }
+    .progress-bar-fill.red { background: var(--accent-red); }
+
+    /* Table inline progress bar */
+    .table-progress {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .table-progress-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--border-light);
+      border-radius: 100px;
+      overflow: hidden;
+      min-width: 60px;
+    }
+
+    .table-progress-bar .fill {
+      height: 100%;
+      border-radius: 100px;
+    }
+
+    .table-progress-pct {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* =========================================
+       CSS Gantt Chart (Month-level grid)
+       ========================================= */
+    .wbs-gantt {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 32px 0;
+      overflow: hidden;
+    }
+
+    .wbs-gantt-hdr {
+      background: var(--bg-dark);
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wbs-gantt-hdr .diagram-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .wbs-legend {
+      display: flex;
+      gap: 20px;
+    }
+
+    .wbs-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.5px;
+    }
+
+    .wbs-legend-swatch {
+      width: 14px;
+      height: 6px;
+      border-radius: 3px;
+    }
+
+    .wbs-legend-swatch.sw-p1 { background: var(--accent-green); }
+    .wbs-legend-swatch.sw-p2 { background: var(--accent-warm); }
+    .wbs-legend-swatch.sw-p3 { background: #7b6cb0; }
+    .wbs-legend-swatch.sw-p4 { background: #5b8fb9; }
+    .wbs-legend-swatch.sw-today {
+      width: 2px;
+      height: 12px;
+      border-radius: 1px;
+      background: var(--accent-warm);
+    }
+
+    /* Scroll container */
+    .wbs-scroll {
+      overflow-x: auto;
+    }
+
+    .wbs-grid {
+      position: relative;
+      /* left panel + 8 months * 140px */
+      min-width: calc(var(--left-w) + 8 * var(--month-w));
+    }
+
+    /* Row base */
+    .wbs-row {
+      display: flex;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .wbs-row:last-child { border-bottom: none; }
+
+    /* === Left panel (sticky) === */
+    .wbs-left {
+      position: sticky;
+      left: 0;
+      z-index: 4;
+      background: var(--bg-card);
+      min-width: var(--left-w);
+      width: var(--left-w);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      border-right: 1px solid var(--border);
+    }
+
+    /* Columns in left panel */
+    .c-task {
+      width: 168px;
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 0;
+    }
+
+    .c-status {
+      width: 68px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .c-date {
+      width: 56px;
+      flex-shrink: 0;
+      font-size: 12px;
+      color: var(--text-light);
+      text-align: center;
+    }
+
+    .c-who {
+      width: 56px;
+      flex-shrink: 0;
+      font-size: 12px;
+      color: var(--text-light);
+      text-align: center;
+    }
+
+    /* Column header styles */
+    .wbs-row.col-hdr {
+      background: var(--bg-primary);
+      height: 36px;
+    }
+
+    .wbs-row.col-hdr .wbs-left {
+      background: var(--bg-primary);
+    }
+
+    .wbs-row.col-hdr .c-task,
+    .wbs-row.col-hdr .c-status,
+    .wbs-row.col-hdr .c-date,
+    .wbs-row.col-hdr .c-who {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Month header cells */
+    .wbs-months-hdr {
+      display: flex;
+      flex-shrink: 0;
+    }
+
+    .wbs-months-hdr .m {
+      width: var(--month-w);
+      flex-shrink: 0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      padding: 8px 0;
+      border-left: 1px solid var(--border);
+      letter-spacing: 1px;
+    }
+
+    .wbs-months-hdr .m:first-child { border-left: none; }
+
+    .wbs-months-hdr .m.td {
+      color: var(--accent-warm);
+      font-weight: 700;
+      background: rgba(196,112,75,0.06);
+    }
+
+    /* Quarter sub-labels */
+    .wbs-row.quarter-hdr {
+      background: var(--bg-primary);
+      height: 28px;
+      border-bottom: none;
+    }
+
+    .wbs-row.quarter-hdr .wbs-left {
+      background: var(--bg-primary);
+    }
+
+    .wbs-quarters {
+      display: flex;
+      flex-shrink: 0;
+    }
+
+    .wbs-quarter-lbl {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-left: 1px solid var(--border);
+    }
+
+    .wbs-quarter-lbl:first-child { border-left: none; }
+
+    /* Phase group row */
+    .wbs-row.ph {
+      height: 40px;
+    }
+
+    .wbs-row.ph .wbs-left {
+      gap: 8px;
+      padding-left: 12px;
+    }
+
+    .wbs-row.ph .ph-stripe {
+      width: 4px;
+      height: 20px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .wbs-row.ph .ph-stripe.p1 { background: var(--accent-green); }
+    .wbs-row.ph .ph-stripe.p2 { background: var(--accent-warm); }
+    .wbs-row.ph .ph-stripe.p3 { background: #7b6cb0; }
+    .wbs-row.ph .ph-stripe.p4 { background: #5b8fb9; }
+
+    .wbs-row.ph .ph-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .wbs-row.ph .ph-count {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-light);
+      margin-left: 4px;
+    }
+
+    .wbs-row.ph.p1,
+    .wbs-row.ph.p1 .wbs-left { background: rgba(45,122,95,0.04); }
+    .wbs-row.ph.p2,
+    .wbs-row.ph.p2 .wbs-left { background: rgba(196,112,75,0.04); }
+    .wbs-row.ph.p3,
+    .wbs-row.ph.p3 .wbs-left { background: rgba(123,108,176,0.04); }
+    .wbs-row.ph.p4,
+    .wbs-row.ph.p4 .wbs-left { background: rgba(91,143,185,0.04); }
+
+    /* Task data row */
+    .wbs-row.task {
+      height: 44px;
+    }
+
+    /* Timeline area (right of left panel) */
+    .wbs-tl {
+      position: relative;
+      width: calc(8 * var(--month-w));
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      /* Month grid lines via repeating gradient */
+      background-image: repeating-linear-gradient(
+        to right,
+        var(--border-light) 0,
+        var(--border-light) 1px,
+        transparent 1px,
+        transparent var(--month-w)
+      );
+      background-size: var(--month-w) 100%;
+    }
+
+    /* Task bar */
+    .wbs-bar {
+      position: absolute;
+      height: 20px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      padding: 0 6px;
+      font-size: 10px;
+      font-weight: 600;
+      z-index: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: transform 0.15s ease;
+    }
+
+    .wbs-bar:hover {
+      transform: translateY(-1px);
+    }
+
+    .wbs-bar.p1 {
+      background: linear-gradient(135deg, #e8f5ee, #d4eddf);
+      border: 1px solid rgba(45,122,95,0.3);
+      color: var(--accent-green);
+      box-shadow: 0 1px 4px rgba(45,122,95,0.1);
+    }
+
+    .wbs-bar.p2 {
+      background: linear-gradient(135deg, #fef3e8, #fce5cf);
+      border: 1px solid rgba(196,112,75,0.3);
+      color: var(--accent-warm);
+      box-shadow: 0 1px 4px rgba(196,112,75,0.1);
+    }
+
+    .wbs-bar.p3 {
+      background: linear-gradient(135deg, #f0edf7, #e3ddf0);
+      border: 1px solid rgba(123,108,176,0.3);
+      color: #7b6cb0;
+      box-shadow: 0 1px 4px rgba(123,108,176,0.1);
+    }
+
+    .wbs-bar.p4 {
+      background: linear-gradient(135deg, #e8f0f7, #d4e5f0);
+      border: 1px solid rgba(91,143,185,0.3);
+      color: #5b8fb9;
+      box-shadow: 0 1px 4px rgba(91,143,185,0.1);
+    }
+
+    /* Progress fill inside bar */
+    .wbs-bar .bp {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      border-radius: 5px 0 0 5px;
+      opacity: 0.18;
+    }
+
+    .wbs-bar.p1 .bp { background: var(--accent-green); }
+    .wbs-bar.p2 .bp { background: var(--accent-warm); }
+    .wbs-bar.p3 .bp { background: #7b6cb0; }
+    .wbs-bar.p4 .bp { background: #5b8fb9; }
+
+    .wbs-bar .bt {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Milestone */
+    .wbs-ms {
+      position: absolute;
+      z-index: 2;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .wbs-ms-dia {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      transform: rotate(45deg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      background: #7b6cb0;
+    }
+
+    .wbs-ms-lbl {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-light);
+      white-space: nowrap;
+    }
+
+    /* Today line */
+    .wbs-today {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--accent-warm);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .wbs-today::before {
+      content: 'TODAY';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      background: var(--accent-warm);
+      padding: 2px 6px;
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+
+    /* === Badge === */
+    .badge {
+      display: inline-block;
+      border-radius: 100px;
+      padding: 2px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .badge.done {
+      background: #edf7f1;
+      color: var(--accent-green);
+    }
+
+    .badge.in-progress {
+      background: var(--bg-warm);
+      color: var(--accent-warm);
+    }
+
+    .badge.not-started {
+      background: var(--bg-primary);
+      color: var(--text-light);
+      border: 1px solid var(--border);
+    }
+
+    .badge.delayed {
+      background: #fef3ef;
+      color: var(--accent-red);
+    }
+
+    /* === WBS Detail Table === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      table-layout: fixed;
+    }
+
+    /* Column widths */
+    table col.col-wbs     { width: 7%; }
+    table col.col-task    { width: 26%; }
+    table col.col-person  { width: 10%; }
+    table col.col-start   { width: 10%; }
+    table col.col-end     { width: 10%; }
+    table col.col-progress{ width: 20%; }
+    table col.col-status  { width: 17%; }
+
+    thead th {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border);
+      text-align: left;
+    }
+
+    tbody td {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    /* Phase row */
+    tbody tr.phase-row td {
+      font-weight: 600;
+      color: var(--text-primary);
+      background: var(--bg-warm);
+    }
+
+    /* === Callout === */
+    .callout {
+      margin: 40px 0;
+      padding: 28px 32px;
+      border-radius: 12px;
+    }
+
+    .callout.note {
+      border-left: 3px solid var(--accent-warm);
+      background: #fef8f0;
+    }
+
+    .callout.warning {
+      border-left: 3px solid var(--accent-red);
+      background: #fef3ef;
+    }
+
+    .callout p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* === Footer === */
+    .footer {
+      padding: 48px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .footer p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* === Responsive === */
+    @media (max-width: 640px) {
+      .hero { padding: 60px 0 48px; }
+      .hero h1 { font-size: 28px; }
+      .content { padding: 0 16px; }
+      .content-narrow { padding: 0 16px; }
+      .section { padding: 48px 0; }
+      .section h2 { font-size: 22px; }
+      .wbs-gantt-hdr { padding: 14px 16px; flex-direction: column; gap: 8px; }
+      .wbs-legend { flex-wrap: wrap; gap: 12px; }
+      .status-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label">WORK BREAKDOWN STRUCTURE</div>
+    <h1>基幹システム刷新プロジェクト WBS</h1>
+    <div class="hero-meta">
+      <span class="hero-meta-item">更新日: 2026年3月8日</span>
+      <span class="hero-meta-item">プロジェクト: 基幹システム刷新</span>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Status Summary -->
+    <div class="section">
+      <div class="section-label">STATUS OVERVIEW</div>
+      <h2>進捗サマリー</h2>
+      <div class="status-cards">
+        <div class="status-card on-track">
+          <div class="status-label">全体進捗</div>
+          <div class="status-value">25%</div>
+          <div class="status-note">計画通り</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill green" style="width: 25%"></div>
+          </div>
+        </div>
+        <div class="status-card on-track">
+          <div class="status-label">完了タスク</div>
+          <div class="status-value">3/12</div>
+          <div class="status-note">25%</div>
+        </div>
+        <div class="status-card">
+          <div class="status-label">進行中</div>
+          <div class="status-value">2</div>
+          <div class="status-note">基本設計・DB設計</div>
+        </div>
+        <div class="status-card">
+          <div class="status-label">未着手</div>
+          <div class="status-value">7</div>
+          <div class="status-note">Phase 2-4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gantt Chart (Monthly) -->
+  <div class="content-wide">
+    <div class="section">
+      <div class="section-label">GANTT CHART</div>
+      <h2>スケジュール</h2>
+
+      <div class="wbs-gantt">
+        <!-- Dark header -->
+        <div class="wbs-gantt-hdr">
+          <div class="diagram-title">プロジェクトスケジュール（月次）</div>
+          <div class="wbs-legend">
+            <div class="wbs-legend-item"><div class="wbs-legend-swatch sw-p1"></div>要件・設計</div>
+            <div class="wbs-legend-item"><div class="wbs-legend-swatch sw-p2"></div>開発</div>
+            <div class="wbs-legend-item"><div class="wbs-legend-swatch sw-p3"></div>テスト</div>
+            <div class="wbs-legend-item"><div class="wbs-legend-swatch sw-p4"></div>移行・リリース</div>
+            <div class="wbs-legend-item"><div class="wbs-legend-swatch sw-today"></div>今日</div>
+          </div>
+        </div>
+
+        <div class="wbs-scroll">
+          <div class="wbs-grid">
+            <!--
+              Monthly grid: 8 months (Jan 2026 - Aug 2026)
+              M0: 1月  M1: 2月  M2: 3月  M3: 4月  M4: 5月  M5: 6月  M6: 7月  M7: 8月
+
+              Today (Mar 8) ≈ month 2 + 8/31 ≈ 2.26
+            -->
+            <div class="wbs-today" style="left: calc(var(--left-w) + 2.26 * var(--month-w));"></div>
+
+            <!-- ===== Quarter header row ===== -->
+            <div class="wbs-row quarter-hdr">
+              <div class="wbs-left"></div>
+              <div class="wbs-quarters">
+                <div class="wbs-quarter-lbl" style="width: calc(3 * var(--month-w));">Q1 2026</div>
+                <div class="wbs-quarter-lbl" style="width: calc(3 * var(--month-w));">Q2 2026</div>
+                <div class="wbs-quarter-lbl" style="width: calc(2 * var(--month-w));">Q3 2026</div>
+              </div>
+            </div>
+
+            <!-- ===== Column header + Month labels ===== -->
+            <div class="wbs-row col-hdr">
+              <div class="wbs-left">
+                <div class="c-task">タスク</div>
+                <div class="c-status">状態</div>
+                <div class="c-date">開始</div>
+                <div class="c-date">終了</div>
+                <div class="c-date">締切</div>
+                <div class="c-who">担当</div>
+              </div>
+              <div class="wbs-months-hdr">
+                <div class="m">1月</div>
+                <div class="m">2月</div>
+                <div class="m td">3月</div>
+                <div class="m">4月</div>
+                <div class="m">5月</div>
+                <div class="m">6月</div>
+                <div class="m">7月</div>
+                <div class="m">8月</div>
+              </div>
+            </div>
+
+            <!-- ===== Phase 1: 要件・設計 ===== -->
+            <div class="wbs-row ph p1">
+              <div class="wbs-left">
+                <div class="ph-stripe p1"></div>
+                <span class="ph-title">要件・設計</span>
+                <span class="ph-count">(3)</span>
+              </div>
+              <div class="wbs-tl"></div>
+            </div>
+
+            <!-- 1.1 要件定義: Jan-Feb = M0-M1, 2 months -->
+            <div class="wbs-row task">
+              <div class="wbs-left">
+                <div class="c-task">要件定義</div>
+                <div class="c-status"><span class="badge done">完了</span></div>
+                <div class="c-date">1/6</div>
+                <div class="c-date">2/27</div>
+                <div class="c-date">2/28</div>
+                <div class="c-who">田中</div>
+              </div>
+              <div class="wbs-tl">
+                <div class="wbs-bar p1" style="left: calc(0 * var(--month-w)); width: calc(2 * var(--month-w));">
+                  <div class="bp" style="width: 100%; border-radius: 5px;"></div>
+                  <span class="bt">要件定義</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 1.2 基本設計: Feb-Mar = M1-M2.5, 1.5 months -->
+            <div class="wbs-row task">
+              <div class="wbs-left">
+                <div class="c-task">基本設計</div>
+                <div class="c-status"><span class="badge in-progress">進行中</span></div>
+                <div class="c-date">2/2</div>
+                <div class="c-date">3/20</div>
+                <div class="c-date">3/31</div>
+                <div class="c-who">佐藤</div>
+              </div>
+              <div class="wbs-tl">
+                <div class="wbs-bar p1" style="left: calc(1 * var(--month-w)); width: calc(1.6 * var(--month-w));">
+                  <div class="bp" style="width: 70%;"></div>
+                  <span class="bt">基本設計</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 1.3 DB設計: Feb-Mar = M1.5-M2.5, 1 month -->
+            <div class="wbs-row task">
+              <div class="wbs-left">
+                <div class="c-task">DB設計</div>
+                <div class="c-status"><span class="badge in-progress">進行中</span></div>
+                <div class="c-date">2/16</div>
+                <div class="c-date">3/31</div>
+                <div class="c-date">3/31</div>
+                <div class="c-who">鈴木</div>
+              </div>
+              <div class="wbs-tl">
+                <div class="wbs-bar p1" style="left: calc(1.5 * var(--month-w)); width: calc(1.5 * var(--month-w));">
+                  <div class="bp" style="width: 40%;"></div>
+                  <span class="bt">DB設計</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== Phase 2: 開発 ===== -->
+            <div class="wbs-row ph p2">
+              <div class="wbs-left">
+                <div class="ph-stripe p2"></div>
+                <span class="ph-title">開発</span>
+                <span class="ph-count">(3)</span>
+              </div>
+              <div class="wbs-tl"></div>
+            </div>
+
+            <!-- 2.1 バックエンド開発: Apr-Jun = M3-M5, 3 months -->
+            <div class="wbs-row task">
+              <div class="wbs-left">
+                <div class="c-task">バックエンド開発</div>
+                <div class="c-status"><span class="badge not-started">未着手</span></div>
+                <div class="c-date">4/1</div>
+                <div class="c-date">6/30</div>
+                <div class="c-date">6/30</div>
+                <div class="c-who">佐藤</div>
+              </div>
+              <div class="wbs-tl">
+                <div class="wbs-bar p2" style="left: calc(3 * var(--month-w)); width: calc(3 * var(--month-w));">
+                  <span class="bt">バックエンド開発</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2.2 フロントエンド開発: Apr-Jun = M3-M5, 3 months -->
+            <div class="wbs-row task">
+              <div class="wbs-left">
+                <div class="c-task">フロントエンド開発</div>
+                <div class="c-status"><span class="badge not-started">未着手</span></div>
+                <div class="c-date">4/1</div>
+                <div class="c-date">6/30</div>
+                <div class="c-date">6/30</div>
+                <div class="c-who">高橋</div>
+              </div>
+              <div class="wbs-tl">
+                <div class="wbs-bar p2" style="left: calc(3 * var(--month-w)); width: calc(3 * var(--month-w));">
+                  <span class="bt">フロントエンド開発</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2.3 API連携: May-Jun = M4-M5, 2 months -->
+            <div class="wbs-row task">
+              <div class="wbs-left">
+                <div class="c-task">API連携</div>
+                <div class="c-status"><span class="badge not-started">未着手</span></div>
+                <div class="c-date">5/1</div>
+                <div class="c-date">6/30</div>
+                <div class="c-date">6/30</div>
+                <div class="c-who">鈴木</div>
+              </div>
+              <div class="wbs-tl">
+                <div class="wbs-bar p2" style="left: calc(4 * var(--month-w)); width: calc(2 * var(--month-w));">
+                  <span class="bt">API連携</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== Phase 3: テスト ===== -->
+            <div class="wbs-row ph p3">
+              <div class="wbs-left">
+                <div class="ph-stripe p3"></div>
+                <span class="ph-title">テスト</span>
+                <span class="ph-count">(3)</span>
+              </div>
+              <div class="wbs-tl"></div>
+            </div>
+
+            <!-- 3.1 結合テスト: Jul = M6, 1 month -->
+            <div class="wbs-row task">
+              <div class="wbs-left">
+                <div class="c-task">結合テスト</div>
+                <div class="c-status"><span class="badge not-started">未着手</span></div>
+                <div class="c-date">7/1</div>
+                <div class="c-date">7/31</div>
+                <div class="c-date">7/31</div>
+                <div class="c-who">高橋</div>
+              </div>
+              <div class="wbs-tl">
+                <div class="wbs-bar p3" style="left: calc(6 * var(--month-w)); width: calc(1 * var(--month-w));">
+                  <span class="bt">結合テスト</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3.2 総合テスト: Jul-Aug mid = M6-M7.5, 1.5 months -->
+            <div class="wbs-row task">
+              <div class="wbs-left">
+                <div class="c-task">総合テスト</div>
+                <div class="c-status"><span class="badge not-started">未着手</span></div>
+                <div class="c-date">7/15</div>
+                <div class="c-date">8/22</div>
+                <div class="c-date">8/22</div>
+                <div class="c-who">田中</div>
+              </div>
+              <div class="wbs-tl">
+                <div class="wbs-bar p3" style="left: calc(6.5 * var(--month-w)); width: calc(1.25 * var(--month-w));">
+                  <span class="bt">総合テスト</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3.3 受入テスト: Aug = M7-M7.8, ~0.8 month -->
+            <div class="wbs-row task">
+              <div class="wbs-left">
+                <div class="c-task">受入テスト</div>
+                <div class="c-status"><span class="badge not-started">未着手</span></div>
+                <div class="c-date">8/1</div>
+                <div class="c-date">8/25</div>
+                <div class="c-date">8/25</div>
+                <div class="c-who">田中</div>
+              </div>
+              <div class="wbs-tl">
+                <div class="wbs-bar p3" style="left: calc(7 * var(--month-w)); width: calc(0.8 * var(--month-w));">
+                  <span class="bt">受入テスト</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== Phase 4: 移行・リリース ===== -->
+            <div class="wbs-row ph p4">
+              <div class="wbs-left">
+                <div class="ph-stripe p4"></div>
+                <span class="ph-title">移行・リリース</span>
+                <span class="ph-count">(1)</span>
+              </div>
+              <div class="wbs-tl"></div>
+            </div>
+
+            <!-- 4.1 本番リリース: Aug 31 (milestone) -->
+            <div class="wbs-row task">
+              <div class="wbs-left">
+                <div class="c-task">本番リリース</div>
+                <div class="c-status"><span class="badge not-started">未着手</span></div>
+                <div class="c-date">8/31</div>
+                <div class="c-date">8/31</div>
+                <div class="c-date">8/31</div>
+                <div class="c-who">全員</div>
+              </div>
+              <div class="wbs-tl">
+                <div class="wbs-ms" style="left: calc(8 * var(--month-w) - 4px);">
+                  <div class="wbs-ms-dia"></div>
+                  <div class="wbs-ms-lbl">8/31</div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /.wbs-grid -->
+        </div><!-- /.wbs-scroll -->
+      </div><!-- /.wbs-gantt -->
+    </div>
+  </div>
+
+  <!-- WBS Detail Table -->
+  <div class="content">
+    <div class="section">
+      <div class="section-label">WBS DETAIL</div>
+      <h2>作業項目一覧</h2>
+      <table>
+        <colgroup>
+          <col class="col-wbs">
+          <col class="col-task">
+          <col class="col-person">
+          <col class="col-start">
+          <col class="col-end">
+          <col class="col-progress">
+          <col class="col-status">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>WBS #</th>
+            <th>タスク</th>
+            <th>担当</th>
+            <th>開始</th>
+            <th>終了</th>
+            <th>進捗</th>
+            <th>ステータス</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="phase-row">
+            <td>1</td>
+            <td>Phase 1: 要件・設計</td>
+            <td></td>
+            <td>1/6</td>
+            <td>3/31</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:60%; background:var(--accent-warm)"></div></div>
+                <span class="table-progress-pct">60%</span>
+              </div>
+            </td>
+            <td><span class="badge in-progress">進行中</span></td>
+          </tr>
+          <tr>
+            <td>1.1</td>
+            <td>要件定義</td>
+            <td>田中</td>
+            <td>1/6</td>
+            <td>2/27</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:100%; background:var(--accent-green)"></div></div>
+                <span class="table-progress-pct">100%</span>
+              </div>
+            </td>
+            <td><span class="badge done">完了</span></td>
+          </tr>
+          <tr>
+            <td>1.2</td>
+            <td>基本設計</td>
+            <td>佐藤</td>
+            <td>2/2</td>
+            <td>3/20</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:70%; background:var(--accent-warm)"></div></div>
+                <span class="table-progress-pct">70%</span>
+              </div>
+            </td>
+            <td><span class="badge in-progress">進行中</span></td>
+          </tr>
+          <tr>
+            <td>1.3</td>
+            <td>DB設計</td>
+            <td>鈴木</td>
+            <td>2/16</td>
+            <td>3/31</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:40%; background:var(--accent-warm)"></div></div>
+                <span class="table-progress-pct">40%</span>
+              </div>
+            </td>
+            <td><span class="badge in-progress">進行中</span></td>
+          </tr>
+          <tr class="phase-row">
+            <td>2</td>
+            <td>Phase 2: 開発</td>
+            <td></td>
+            <td>4/1</td>
+            <td>6/30</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:0%; background:var(--text-light)"></div></div>
+                <span class="table-progress-pct">0%</span>
+              </div>
+            </td>
+            <td><span class="badge not-started">未着手</span></td>
+          </tr>
+          <tr>
+            <td>2.1</td>
+            <td>バックエンド開発</td>
+            <td>佐藤</td>
+            <td>4/1</td>
+            <td>6/30</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:0%; background:var(--text-light)"></div></div>
+                <span class="table-progress-pct">0%</span>
+              </div>
+            </td>
+            <td><span class="badge not-started">未着手</span></td>
+          </tr>
+          <tr>
+            <td>2.2</td>
+            <td>フロントエンド開発</td>
+            <td>高橋</td>
+            <td>4/1</td>
+            <td>6/30</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:0%; background:var(--text-light)"></div></div>
+                <span class="table-progress-pct">0%</span>
+              </div>
+            </td>
+            <td><span class="badge not-started">未着手</span></td>
+          </tr>
+          <tr>
+            <td>2.3</td>
+            <td>API連携</td>
+            <td>鈴木</td>
+            <td>5/1</td>
+            <td>6/30</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:0%; background:var(--text-light)"></div></div>
+                <span class="table-progress-pct">0%</span>
+              </div>
+            </td>
+            <td><span class="badge not-started">未着手</span></td>
+          </tr>
+          <tr class="phase-row">
+            <td>3</td>
+            <td>Phase 3: テスト</td>
+            <td></td>
+            <td>7/1</td>
+            <td>8/25</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:0%; background:var(--text-light)"></div></div>
+                <span class="table-progress-pct">0%</span>
+              </div>
+            </td>
+            <td><span class="badge not-started">未着手</span></td>
+          </tr>
+          <tr>
+            <td>3.1</td>
+            <td>結合テスト</td>
+            <td>高橋</td>
+            <td>7/1</td>
+            <td>7/31</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:0%; background:var(--text-light)"></div></div>
+                <span class="table-progress-pct">0%</span>
+              </div>
+            </td>
+            <td><span class="badge not-started">未着手</span></td>
+          </tr>
+          <tr>
+            <td>3.2</td>
+            <td>総合テスト</td>
+            <td>田中</td>
+            <td>7/15</td>
+            <td>8/22</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:0%; background:var(--text-light)"></div></div>
+                <span class="table-progress-pct">0%</span>
+              </div>
+            </td>
+            <td><span class="badge not-started">未着手</span></td>
+          </tr>
+          <tr>
+            <td>3.3</td>
+            <td>受入テスト</td>
+            <td>田中</td>
+            <td>8/1</td>
+            <td>8/25</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:0%; background:var(--text-light)"></div></div>
+                <span class="table-progress-pct">0%</span>
+              </div>
+            </td>
+            <td><span class="badge not-started">未着手</span></td>
+          </tr>
+          <tr class="phase-row">
+            <td>4</td>
+            <td>Phase 4: 移行・リリース</td>
+            <td></td>
+            <td>8/31</td>
+            <td>8/31</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:0%; background:var(--text-light)"></div></div>
+                <span class="table-progress-pct">0%</span>
+              </div>
+            </td>
+            <td><span class="badge not-started">未着手</span></td>
+          </tr>
+          <tr>
+            <td>4.1</td>
+            <td>本番リリース</td>
+            <td>全員</td>
+            <td>8/31</td>
+            <td>8/31</td>
+            <td>
+              <div class="table-progress">
+                <div class="table-progress-bar"><div class="fill" style="width:0%; background:var(--text-light)"></div></div>
+                <span class="table-progress-pct">0%</span>
+              </div>
+            </td>
+            <td><span class="badge not-started">未着手</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout note">
+        <p>Phase 1 の要件定義は完了。基本設計・DB設計が進行中。4月から開発フェーズに移行予定。リリース目標: 8月31日。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>基幹システム刷新プロジェクト WBS &mdash; 最終更新: 2026年3月8日</p>
+  </div>
+
+</body>
+</html>

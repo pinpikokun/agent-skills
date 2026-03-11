@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPA タイトル</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* === Design Tokens === */
+    :root {
+      --bg-primary: #faf9f7;
+      --bg-card: #ffffff;
+      --bg-warm: #f5f0eb;
+      --bg-dark: #191919;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b6560;
+      --text-light: #9a938d;
+      --accent-warm: #c4704b;
+      --accent-green: #2d7a5f;
+      --accent-red: #b85450;
+      --border: #e8e2db;
+      --border-light: #f0ece7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    /* === Compact Hero === */
+    .hero {
+      background: var(--bg-dark);
+      padding: 48px 0 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(196,112,75,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .hero-date {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* === Content === */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* === Overview Page === */
+    .page-top {
+      padding: 48px 0;
+    }
+
+    .page-top .intro {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      text-align: center;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Horizontal card flow with arrows */
+    .nav-flow {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: 0;
+      margin: 0 auto;
+      overflow-x: auto;
+      padding: 8px 0;
+    }
+
+    .nav-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+      text-align: left;
+      position: relative;
+    }
+
+    .nav-card:hover {
+      border-color: var(--accent-warm);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      transform: translateY(-4px);
+    }
+
+    .nav-card.highlight {
+      border: 2px solid var(--accent-warm);
+      box-shadow: 0 4px 20px rgba(196,112,75,0.12);
+    }
+
+    .nav-card.highlight:hover {
+      box-shadow: 0 8px 28px rgba(196,112,75,0.22);
+    }
+
+    .nav-card.gray .nav-card-icon {
+      background: var(--bg-warm);
+      color: var(--text-secondary);
+    }
+
+    .nav-card.gray .tool-badge {
+      background: var(--bg-warm);
+      color: var(--text-secondary);
+    }
+
+    .nav-card.blue .nav-card-icon {
+      background: #eef4fb;
+      color: #4a7fbf;
+    }
+
+    .nav-card.blue .tool-badge {
+      background: #eef4fb;
+      color: #4a7fbf;
+    }
+
+    .nav-card.highlight .nav-card-icon {
+      background: #fef3ef;
+      color: var(--accent-warm);
+    }
+
+    .nav-card.highlight .tool-badge {
+      background: #fef3ef;
+      color: var(--accent-warm);
+    }
+
+    /* Card header: icon + label/title */
+    .nav-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .nav-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      background: var(--bg-warm);
+      color: var(--accent-warm);
+    }
+
+    .nav-card-label {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .nav-card-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    /* Card tool badge row */
+    .nav-card-tool-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .tool-badge {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 100px;
+      padding: 3px 12px;
+      background: var(--bg-warm);
+      color: var(--text-secondary);
+    }
+
+    .tool-year {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* Card description & list */
+    .nav-card-desc {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
+    .nav-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .nav-card ul li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 2px 0;
+    }
+
+    .nav-card ul li::before {
+      content: '\25CF';
+      font-size: 8px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    /* Card footer */
+    .nav-card-footer {
+      margin-top: 14px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-card-footer.warn {
+      background: #fef3ef;
+      color: var(--accent-red);
+    }
+
+    .nav-card-footer.good {
+      background: #edf7f1;
+      color: var(--accent-green);
+    }
+
+    /* Callout box below cards */
+    .callout-box {
+      margin-top: 48px;
+      text-align: left;
+      background: var(--bg-card);
+      border: 2px solid var(--accent-warm);
+      border-radius: 16px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .callout-box-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--accent-warm);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .callout-box-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .callout-box-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .callout-box-desc .highlight {
+      color: var(--accent-warm);
+      font-weight: 700;
+    }
+
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      color: var(--accent-warm);
+      padding: 0 8px;
+      flex-shrink: 0;
+    }
+
+    /* === Detail Page === */
+    .page-detail {
+      display: none;
+      padding: 40px 0 60px;
+    }
+
+    .page-detail.active {
+      display: block;
+    }
+
+    /* Pill back button */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 16px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      margin-bottom: 24px;
+    }
+
+    .back-btn:hover {
+      border-color: var(--accent-warm);
+      color: var(--accent-warm);
+    }
+
+    /* Page badge */
+    .page-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .page-detail h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .page-detail p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .page-detail h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      margin-top: 28px;
+    }
+
+    .page-detail ul {
+      padding-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    .page-detail li {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* 2-column detail grid */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 24px 0;
+    }
+
+    .detail-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .detail-card.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .detail-card-label {
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .detail-card-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .detail-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    .detail-card ul {
+      padding-left: 18px;
+      margin-bottom: 0;
+    }
+
+    .detail-card li {
+      font-size: 13px;
+    }
+
+    /* Feature card with colored left border */
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-warm);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+    }
+
+    .feature-card.green {
+      border-left-color: var(--accent-green);
+    }
+
+    .feature-card.red {
+      border-left-color: var(--accent-red);
+    }
+
+    .feature-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    /* Step cards */
+    .step-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .step-number {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent-warm);
+      opacity: 0.5;
+      flex-shrink: 0;
+      min-width: 28px;
+    }
+
+    .step-body {
+      flex: 1;
+    }
+
+    .step-body .step-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .step-body p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    /* === Table === */
+    .page-detail table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+
+    .page-detail thead th {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--border);
+      text-align: left;
+    }
+
+    .page-detail tbody td {
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    /* === Callout === */
+    .callout {
+      margin: 20px 0;
+      padding: 16px 20px;
+      border-radius: 12px;
+    }
+
+    .callout.note {
+      border-left: 3px solid var(--accent-warm);
+      background: #fef8f0;
+    }
+
+    .callout.important {
+      border-left: 3px solid var(--accent-green);
+      background: #edf7f1;
+    }
+
+    .callout p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* === Badge === */
+    .topic-badge {
+      display: inline-block;
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+
+    .topic-badge.warm {
+      background: var(--bg-warm);
+      color: var(--accent-warm);
+    }
+
+    .topic-badge.green {
+      background: #edf7f1;
+      color: var(--accent-green);
+    }
+
+    /* === Footer === */
+    .footer {
+      padding: 32px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .footer p {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    /* === Responsive === */
+    @media (max-width: 640px) {
+      .hero { padding: 36px 0 28px; }
+      .hero h1 { font-size: 22px; }
+      .content { padding: 0 16px; }
+      .nav-flow { flex-direction: column; align-items: center; }
+      .nav-card { width: 100%; max-width: 340px; }
+      .flow-arrow { transform: rotate(90deg); padding: 4px 0; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .page-detail h2 { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Compact Hero -->
+  <div class="hero">
+    <div class="hero-label">PRESENTATION</div>
+    <h1>SPA プレゼンテーションタイトル</h1>
+    <div class="hero-date">2026年3月8日</div>
+  </div>
+
+  <div class="content">
+    <!-- Overview Page: Horizontal Card Flow -->
+    <div class="page-top" id="page-top">
+      <p class="intro">全体の導入文。各トピックをクリックして詳細を確認できます。</p>
+      <div class="nav-flow">
+        <a class="nav-card gray" onclick="showPage('page-1')">
+          <div class="nav-card-header">
+            <div class="nav-card-icon">A</div>
+            <div>
+              <div class="nav-card-label">カテゴリ1</div>
+              <div class="nav-card-title">トピック1</div>
+            </div>
+          </div>
+          <div class="nav-card-tool-row">
+            <span class="tool-badge">ツール名</span>
+            <span class="tool-year">2024〜</span>
+          </div>
+          <div class="nav-card-desc">概要キーワード</div>
+          <ul>
+            <li>特徴Aの説明</li>
+            <li>特徴Bの説明</li>
+            <li>特徴Cの説明</li>
+          </ul>
+          <div class="nav-card-footer warn">⚠ 注意点の補足</div>
+        </a>
+        <div class="flow-arrow">&#8594;</div>
+        <a class="nav-card blue" onclick="showPage('page-2')">
+          <div class="nav-card-header">
+            <div class="nav-card-icon">B</div>
+            <div>
+              <div class="nav-card-label">カテゴリ2</div>
+              <div class="nav-card-title">トピック2</div>
+            </div>
+          </div>
+          <div class="nav-card-tool-row">
+            <span class="tool-badge">ツール名</span>
+            <span class="tool-year">2025〜</span>
+          </div>
+          <div class="nav-card-desc">概要キーワード</div>
+          <ul>
+            <li>特徴Dの説明</li>
+            <li>特徴Eの説明</li>
+            <li>特徴Fの説明</li>
+          </ul>
+          <div class="nav-card-footer warn">⚠ 注意点の補足</div>
+        </a>
+        <div class="flow-arrow">&#8594;</div>
+        <a class="nav-card highlight" onclick="showPage('page-3')">
+          <div class="nav-card-header">
+            <div class="nav-card-icon">C</div>
+            <div>
+              <div class="nav-card-label">カテゴリ3</div>
+              <div class="nav-card-title">トピック3</div>
+            </div>
+          </div>
+          <div class="nav-card-tool-row">
+            <span class="tool-badge">ツール名</span>
+            <span class="tool-year">2026〜</span>
+          </div>
+          <div class="nav-card-desc">概要キーワード</div>
+          <ul>
+            <li>特徴Gの説明</li>
+            <li>特徴Hの説明</li>
+            <li>特徴Iの説明</li>
+          </ul>
+          <div class="nav-card-footer good">&#9733; ポジティブな補足</div>
+        </a>
+      </div>
+
+      <!-- Callout box -->
+      <div class="callout-box">
+        <div class="callout-box-icon">!</div>
+        <div>
+          <div class="callout-box-title">補足タイトル</div>
+          <div class="callout-box-desc">ここに全体を通した<span class="highlight">重要なポイント</span>やまとめの補足文を記載します。カード一覧の下に表示される強調ボックスです。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Page 1: 2-column grid -->
+    <div class="page-detail" id="page-1">
+      <a class="back-btn" onclick="showTop()">&#8592; 一覧に戻る</a>
+      <div class="page-badge">TOPIC 01</div>
+      <h2>トピック1のタイトル</h2>
+      <p>ここにトピック1の詳細な説明が入ります。</p>
+
+      <div class="detail-grid">
+        <div class="detail-card">
+          <div class="detail-card-label">OVERVIEW</div>
+          <div class="detail-card-title">概要</div>
+          <p>左カラムに概要情報を記載します。</p>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-label">KEY POINTS</div>
+          <div class="detail-card-title">ポイント</div>
+          <ul>
+            <li>ポイント1の説明</li>
+            <li>ポイント2の説明</li>
+            <li>ポイント3の説明</li>
+          </ul>
+        </div>
+        <div class="detail-card full-width">
+          <div class="detail-card-label">DATA</div>
+          <div class="detail-card-title">詳細データ</div>
+          <table>
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>内容</th>
+                <th>備考</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>データ1</td>
+                <td>値1</td>
+                <td>補足</td>
+              </tr>
+              <tr>
+                <td>データ2</td>
+                <td>値2</td>
+                <td>補足</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Page 2: Feature cards -->
+    <div class="page-detail" id="page-2">
+      <a class="back-btn" onclick="showTop()">&#8592; 一覧に戻る</a>
+      <div class="page-badge">TOPIC 02</div>
+      <h2>トピック2のタイトル</h2>
+      <p>ここにトピック2の詳細な説明が入ります。</p>
+
+      <h3>主要な特徴</h3>
+      <div class="feature-card">
+        <div class="feature-card-title">特徴A</div>
+        <p>特徴Aの詳細説明がここに入ります。</p>
+      </div>
+      <div class="feature-card green">
+        <div class="feature-card-title">特徴B</div>
+        <p>特徴Bの詳細説明がここに入ります。</p>
+      </div>
+      <div class="feature-card red">
+        <div class="feature-card-title">特徴C（注意点）</div>
+        <p>注意が必要な点の説明がここに入ります。</p>
+      </div>
+
+      <h3>関連ツール</h3>
+      <p>
+        <span class="topic-badge warm">ツールA</span>
+        <span class="topic-badge green">ツールB</span>
+        <span class="topic-badge warm">ツールC</span>
+      </p>
+    </div>
+
+    <!-- Detail Page 3: Step cards -->
+    <div class="page-detail" id="page-3">
+      <a class="back-btn" onclick="showTop()">&#8592; 一覧に戻る</a>
+      <div class="page-badge">TOPIC 03</div>
+      <h2>トピック3のタイトル</h2>
+      <p>ここにトピック3の詳細な説明が入ります。</p>
+
+      <h3>実施手順</h3>
+      <div class="step-cards">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <div class="step-body">
+            <div class="step-title">ステップ1のタイトル</div>
+            <p>ステップ1の説明文がここに入ります。</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <div class="step-body">
+            <div class="step-title">ステップ2のタイトル</div>
+            <p>ステップ2の説明文がここに入ります。</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <div class="step-body">
+            <div class="step-title">ステップ3のタイトル</div>
+            <p>ステップ3の説明文がここに入ります。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout important">
+        <p>重要なポイントをここに記述します。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>SPA プレゼンテーションタイトル &mdash; 2026年3月8日</p>
+  </div>
+
+  <script>
+    function showPage(pageId) {
+      document.getElementById('page-top').style.display = 'none';
+      document.querySelectorAll('.page-detail').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      window.location.hash = pageId;
+      window.scrollTo(0, 0);
+    }
+
+    function showTop() {
+      document.querySelectorAll('.page-detail').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-top').style.display = 'block';
+      window.location.hash = '';
+      window.scrollTo(0, 0);
+    }
+
+    // URL hash navigation
+    function handleHash() {
+      const hash = window.location.hash.slice(1);
+      if (hash && document.getElementById(hash)) {
+        showPage(hash);
+      } else {
+        showTop();
+      }
+    }
+
+    window.addEventListener('hashchange', handleHash);
+    window.addEventListener('load', handleHash);
+  </script>
+</body>
+</html>
