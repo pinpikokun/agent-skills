@@ -1,5 +1,5 @@
 ---
-name: markdown-guide
+name: markdown-generator
 description: Markdown ドキュメントの作成・編集ガイド。README、議事録、調査レポート、比較資料、計画書、説明資料、WBS、ロードマップ、メモなど種別に応じた構成テンプレートと、GitHub Markdown Alerts・Mermaid 図解の活用ルールを提供する。「README を書いて」「議事録を作って」「調査結果をまとめて」「比較資料を作って」「移行計画を書いて」「説明資料を作って」「WBS を Markdown で書いて」「ロードマップを作って」「マイルストーンをまとめて」「ドキュメントを作成して」「Markdown で書いて」「Mermaid で図を描いて」と依頼されたときに使用する。
 ---
 
