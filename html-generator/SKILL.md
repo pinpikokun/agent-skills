@@ -78,6 +78,7 @@ YAML frontmatter の `type` フィールドをそのまま使用する。
 |------|-------------|
 | `report` | 調査結果、分析、問題報告、技術文書 |
 | `minutes` | 会議、参加者リスト、決定事項、TODO |
+| `knowledge-transfer` | KT、引き継ぎ、ナレッジ共有、伝達者・受領者 |
 | `comparison` | 複数案の比較、メリット/デメリット |
 | `presentation` | プレゼン、スライド、説明会 |
 | `wbs` | 作業分解、スケジュール、タスク一覧、期間 |
@@ -96,6 +97,7 @@ YAML frontmatter の `type` フィールドをそのまま使用する。
 |---|---|---|
 | `report`（デフォルト） | 縦スクロール | `references/skeleton-report.html` |
 | `minutes` | 縦スクロール（議事録固有コンポーネント） | `references/skeleton-minutes.html` |
+| `knowledge-transfer` | 縦スクロール（KT固有コンポーネント） | `references/skeleton-knowledge-transfer.html` |
 | `comparison` | カードグリッド | `references/skeleton-comparison.html` |
 | `presentation` (slide) | 横スライド遷移 | `references/skeleton-slide.html` |
 | `presentation` (spa) | SPA型カードナビ | `references/skeleton-spa.html` |
@@ -198,6 +200,7 @@ YAML frontmatter の `type` フィールドをそのまま使用する。
 | `references/type-mappings.md` | type別のドキュメント → HTML 構造マッピング、遅延時表現ルール | Phase 3（HTML変換）のとき — 該当 type のセクションだけ読む |
 | `references/skeleton-report.html` | report のお手本HTML — 縦スクロール型レポート | type: report のとき |
 | `references/skeleton-minutes.html` | minutes のお手本HTML — 議事録（参加者・決定事項・TODO） | type: minutes のとき |
+| `references/skeleton-knowledge-transfer.html` | knowledge-transfer のお手本HTML — KT（伝達者・確認事項・フォローアップ） | type: knowledge-transfer のとき |
 | `references/skeleton-comparison.html` | comparison のお手本HTML — カードグリッド比較 | type: comparison のとき |
 | `references/skeleton-slide.html` | presentation (slide) のお手本HTML — 横スライド型 | type: presentation, layout: slide のとき |
 | `references/skeleton-spa.html` | presentation (spa) のお手本HTML — SPA型カードナビ | type: presentation, layout: spa のとき |

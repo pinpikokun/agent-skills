@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTタイトル</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #faf9f7;
+      --bg-card: #ffffff;
+      --bg-warm: #f5f0eb;
+      --bg-dark: #191919;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b6560;
+      --text-light: #9a938d;
+      --accent-warm: #c4704b;
+      --accent-green: #2d7a5f;
+      --accent-red: #b85450;
+      --border: #e8e2db;
+      --border-light: #f0ece7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    /* === Hero === */
+    .hero {
+      background: var(--bg-dark);
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(196,112,75,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+      max-width: 780px;
+      margin: 0 auto 24px;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .hero-meta-item {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .hero-meta-item .meta-label {
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* === Content === */
+    .content {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* === Section === */
+    .section {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .section h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .section h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+
+    .section p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .section ul, .section ol {
+      padding-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    .section li {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    /* === Participants (KT: sender/receiver) === */
+    .participants {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0;
+    }
+
+    .participant-tag {
+      background: var(--bg-warm);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .participant-tag.sender {
+      background: var(--accent-warm);
+      color: #ffffff;
+    }
+
+    /* === Action Items (Follow-up) === */
+    .action-items {
+      margin: 24px 0;
+    }
+
+    .action-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 24px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .action-item .action-task {
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    .action-item .action-owner {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent-warm);
+      background: var(--bg-warm);
+      border-radius: 100px;
+      padding: 4px 12px;
+    }
+
+    .action-item .action-deadline {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    /* === Confirmation Status === */
+    .status-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 100px;
+      padding: 4px 16px;
+      white-space: nowrap;
+    }
+
+    .status-badge.confirmed {
+      background: #edf7f1;
+      color: var(--accent-green);
+    }
+
+    .status-badge.needs-review {
+      background: #fef3ef;
+      color: var(--accent-red);
+    }
+
+    /* === Callout === */
+    .callout {
+      margin: 40px 0;
+      padding: 28px 32px;
+      border-radius: 12px;
+    }
+
+    .callout.note {
+      border-left: 3px solid var(--accent-warm);
+      background: #fef8f0;
+    }
+
+    .callout.warning {
+      border-left: 3px solid var(--accent-red);
+      background: #fef3ef;
+    }
+
+    .callout.improvement {
+      border-left: 3px solid var(--accent-green);
+      background: #edf7f1;
+    }
+
+    .callout p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* === Table === */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 24px 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    thead th {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffffff;
+      background: #3a3a3a;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid rgba(255,255,255,0.1);
+      text-align: left;
+    }
+
+    thead th:last-child {
+      border-right: none;
+    }
+
+    tbody td {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+      border-right: 1px solid var(--border-light);
+    }
+
+    tbody td:last-child {
+      border-right: none;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: rgba(245,240,235,0.4);
+    }
+
+    tbody tr:nth-child(even) {
+      background: var(--bg-card);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* === Stepper === */
+    .stepper {
+      margin: 24px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .stepper-item {
+      display: flex;
+      gap: 20px;
+      position: relative;
+      padding-bottom: 24px;
+    }
+
+    .stepper-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .stepper-item::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 36px;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .stepper-item:last-child::before {
+      display: none;
+    }
+
+    .stepper-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stepper-content {
+      font-size: 15px;
+      color: var(--text-secondary);
+      padding-top: 5px;
+    }
+
+    /* === Incident Card === */
+    .incident-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .incident-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+    }
+
+    .incident-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .incident-card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .incident-card-icon.critical {
+      background: #fef3ef;
+      color: var(--accent-red);
+    }
+
+    .incident-card-icon.moderate {
+      background: #fef8f0;
+      color: var(--accent-warm);
+    }
+
+    .incident-card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .incident-card-body {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .incident-card-meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .incident-meta-tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-light);
+      background: var(--bg-primary);
+      border-radius: 100px;
+      padding: 4px 12px;
+    }
+
+    /* === Architecture Diagram === */
+    .arch-diagram {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 32px;
+      margin: 32px 0;
+    }
+
+    .arch-diagram .diagram-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .arch-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .arch-group {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 32px 24px 24px;
+      position: relative;
+    }
+
+    .arch-group-label {
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: var(--bg-card);
+      padding: 0 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+    }
+
+    .arch-panels {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .arch-panel {
+      background: var(--bg-warm);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 28px;
+      text-align: center;
+      min-width: 140px;
+      flex: 1;
+      max-width: 200px;
+    }
+
+    .arch-panel.external {
+      background: var(--bg-primary);
+      border-style: dashed;
+    }
+
+    .arch-panel-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .arch-panel-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .arch-arrow {
+      font-size: 20px;
+      color: var(--text-light);
+    }
+
+    .arch-external {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 640px) {
+      .arch-panels { flex-direction: column; }
+      .arch-arrow { transform: rotate(90deg); }
+      .arch-external { flex-direction: column; align-items: center; }
+    }
+
+    /* === Conclusion === */
+    .conclusion {
+      background: var(--bg-dark);
+      border-radius: 20px;
+      padding: 48px;
+      margin: 48px 0;
+      color: #ffffff;
+    }
+
+    .conclusion h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .conclusion p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.8;
+    }
+
+    /* === Footer === */
+    .footer {
+      padding: 48px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .footer p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* === Responsive === */
+    @media (max-width: 640px) {
+      .hero { padding: 60px 0 48px; }
+      .hero h1 { font-size: 28px; }
+      .content { padding: 0 24px; }
+      .section { padding: 48px 0; }
+      .section h2 { font-size: 22px; }
+      .conclusion { padding: 32px 24px; }
+      .action-item { grid-template-columns: 1fr; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label">KNOWLEDGE TRANSFER</div>
+    <h1>受注管理システム 運用引き継ぎ</h1>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="meta-label">DATE</span>
+        2026年3月13日 10:00-11:30
+      </div>
+      <div class="hero-meta-item">
+        <span class="meta-label">LOCATION</span>
+        オンライン（Teams）
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Section 1: Participants -->
+    <div class="section">
+      <div class="section-label">PARTICIPANTS</div>
+      <h2>1. 参加者</h2>
+      <div class="participants">
+        <span class="participant-tag sender">中村（伝達者・受注管理チーム主担当）</span>
+        <span class="participant-tag">田中（受領者）</span>
+        <span class="participant-tag">鈴木（受領者）</span>
+      </div>
+    </div>
+
+    <!-- Section 2: Scope -->
+    <div class="section">
+      <div class="section-label">SCOPE</div>
+      <h2>2. 対象範囲</h2>
+      <p>中村の異動に伴い、受注管理システムの日常運用・障害対応の知識を田中・鈴木へ引き継ぐ。月次処理は次回KTで実施予定。</p>
+    </div>
+
+    <!-- Section 3: Content -->
+    <div class="section">
+      <div class="section-label">CONTENT</div>
+      <h2>3. 内容</h2>
+
+      <h3>3.1 システム概要と運用体制</h3>
+      <p>受注管理システムは 2023 年に内製で構築したもので、フロントエンドが React、バックエンドが Python（FastAPI）、データベースは PostgreSQL という構成である。AWS 上で稼働しており、ECS Fargate でコンテナ運用している。</p>
+      <div class="arch-diagram">
+        <div class="diagram-title">システム構成</div>
+        <div class="arch-container">
+          <div class="arch-group">
+            <div class="arch-group-label">AWS / ECS Fargate</div>
+            <div class="arch-panels">
+              <div class="arch-panel">
+                <div class="arch-panel-label">FRONTEND</div>
+                <div class="arch-panel-name">React</div>
+              </div>
+              <div class="arch-arrow">→</div>
+              <div class="arch-panel">
+                <div class="arch-panel-label">BACKEND</div>
+                <div class="arch-panel-name">FastAPI (Python)</div>
+              </div>
+              <div class="arch-arrow">→</div>
+              <div class="arch-panel">
+                <div class="arch-panel-label">DATABASE</div>
+                <div class="arch-panel-name">PostgreSQL</div>
+              </div>
+            </div>
+          </div>
+          <div class="arch-external">
+            <div class="arch-panel external">
+              <div class="arch-panel-label">MONITORING</div>
+              <div class="arch-panel-name">Datadog</div>
+            </div>
+            <div class="arch-panel external">
+              <div class="arch-panel-label">EXTERNAL API</div>
+              <div class="arch-panel-name">配送業者連携</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>現在の運用体制は中村が主担当、高橋がサブ担当という形で回しているが、高橋は別プロジェクトとの兼務のため実質的に中村が一人で対応してきた。営業部からの問い合わせ対応も運用業務に含まれ、週に 3〜5 件程度発生する。</p>
+
+      <h3>3.2 日常運用</h3>
+      <p>毎朝 9:00 に Datadog のダッシュボードを確認する。見るべき指標は以下の通り。</p>
+      <div class="stepper">
+        <div class="stepper-item">
+          <div class="stepper-number">1</div>
+          <div class="stepper-content">API レスポンスタイム — 平常時は 100ms 前後。300ms を超えたら調査が必要</div>
+        </div>
+        <div class="stepper-item">
+          <div class="stepper-number">2</div>
+          <div class="stepper-content">エラーレート — 0.1% 以下が正常。0.5% を超えるとアラート発報</div>
+        </div>
+        <div class="stepper-item">
+          <div class="stepper-number">3</div>
+          <div class="stepper-content">DB コネクション数 — 上限 100 に対して通常 20〜30。60 を超えたらコネクションリークの可能性</div>
+        </div>
+      </div>
+      <div class="callout note">
+        <p>エラーレートは月末に上がりやすい。営業部が駆け込みで大量の受注データを投入するためで、月末の 0.3% 程度は正常な挙動である。</p>
+      </div>
+
+      <h3>3.3 障害対応</h3>
+      <p>障害発生時は Slack の #order-system-alert チャンネルを確認する。Datadog からのアラートがここに通知される。過去に発生した主な障害パターンは以下の 2 つ。</p>
+      <div class="incident-cards">
+        <div class="incident-card">
+          <div class="incident-card-header">
+            <div class="incident-card-icon critical">&#9888;</div>
+            <div class="incident-card-title">DB コネクション枯渇</div>
+          </div>
+          <div class="incident-card-body">
+            2025 年 8 月に発生。原因はバッチ処理のコネクション未解放であった。ECS タスクの再起動で暫定対応し、その後コネクションプールの設定を修正して恒久対応した。再発した場合は ECS コンソールからタスクを手動再起動すればよい。
+          </div>
+          <div class="incident-card-meta">
+            <span class="incident-meta-tag">発生: 2025-08</span>
+            <span class="incident-meta-tag">対応: ECS タスク再起動</span>
+            <span class="incident-meta-tag">恒久対応済</span>
+          </div>
+        </div>
+        <div class="incident-card">
+          <div class="incident-card-header">
+            <div class="incident-card-icon moderate">&#9888;</div>
+            <div class="incident-card-title">外部 API（配送業者連携）タイムアウト</div>
+          </div>
+          <div class="incident-card-body">
+            配送業者側のメンテナンスや障害で年に 2〜3 回発生する。受注データ自体には影響しないが、配送ステータスの更新が遅延する。復旧後に自動リトライで反映される。
+          </div>
+          <div class="incident-card-meta">
+            <span class="incident-meta-tag">頻度: 年 2〜3 回</span>
+            <span class="incident-meta-tag">影響: 配送ステータス遅延</span>
+            <span class="incident-meta-tag">自動復旧あり</span>
+          </div>
+        </div>
+      </div>
+      <div class="callout warning">
+        <p>配送業者のタイムアウト時は営業部への初動連絡を早めに行うこと。放置すると営業部長から直接連絡が来る。</p>
+      </div>
+
+      <h3>3.4 関係者と連絡先</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>連絡先</th>
+            <th>役割</th>
+            <th>備考</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>木村課長（営業部）</td>
+            <td>問い合わせ窓口</td>
+            <td>データ修正依頼はすべて木村課長経由</td>
+          </tr>
+          <tr>
+            <td>山本（SREチーム）</td>
+            <td>インフラ相談</td>
+            <td>AWS アカウント権限変更も対応可</td>
+          </tr>
+          <tr>
+            <td>配送業者 API サポート</td>
+            <td>外部API連携</td>
+            <td>api-support@delivery-partner.example.com</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 4: Confirmation -->
+    <div class="section">
+      <div class="section-label">CONFIRMATION</div>
+      <h2>4. 確認事項</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>事項</th>
+            <th>状態</th>
+            <th>備考</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Datadog ダッシュボードの見方</td>
+            <td><span class="status-badge confirmed">理解済</span></td>
+            <td>田中・鈴木ともにアクセス権取得済み</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>管理画面からのデータ修正手順</td>
+            <td><span class="status-badge needs-review">要確認</span></td>
+            <td>次回KTでハンズオン予定</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>ECS タスクの手動再起動方法</td>
+            <td><span class="status-badge needs-review">要確認</span></td>
+            <td>鈴木が AWS コンソールのアクセス権未取得</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>営業部・SRE・配送業者への連絡ルート</td>
+            <td><span class="status-badge confirmed">理解済</span></td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 5: Follow-up -->
+    <div class="section">
+      <div class="section-label">FOLLOW-UP</div>
+      <h2>5. フォローアップ</h2>
+      <div class="action-items">
+        <div class="action-item">
+          <div class="action-task">鈴木の AWS コンソールアクセス権を申請</div>
+          <span class="action-owner">鈴木</span>
+          <span class="action-deadline">期限: 3/17</span>
+        </div>
+        <div class="action-item">
+          <div class="action-task">管理画面のデータ修正を実環境でハンズオン</div>
+          <span class="action-owner">中村</span>
+          <span class="action-deadline">期限: 3/20</span>
+        </div>
+        <div class="action-item">
+          <div class="action-task">月次処理の引き継ぎ（次回KT）</div>
+          <span class="action-owner">中村</span>
+          <span class="action-deadline">期限: 3/27</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>受注管理システム 運用引き継ぎ &mdash; 2026年3月13日</p>
+  </div>
+</body>
+</html>

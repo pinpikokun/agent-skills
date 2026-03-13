@@ -36,6 +36,21 @@ report の構造に加え、議事録固有のコンポーネント:
 
 ---
 
+## type: knowledge-transfer（`skeleton-knowledge-transfer.html` を参照）
+
+minutes の構造をベースに、KT 固有のコンポーネントを追加:
+
+| Markdown | HTML |
+|---|---|
+| 伝達者 | `.participant-tag.sender`（アクセントカラー背景） |
+| 受領者 | `.participant-tag`（通常背景） |
+| 対象範囲 | `.section` 内 `<p>`（SCOPE ラベル） |
+| 内容（トピック） | `.section` 内 `<h3>` + `<p>` / `<ol>`（CONTENT ラベル） |
+| 確認事項テーブル | `<table>` 内 `.status-badge.confirmed` / `.status-badge.needs-review` |
+| フォローアップ | `.action-items` 内 `.action-item`（担当・期限付き） |
+
+---
+
 ## type: comparison（`skeleton-comparison.html` を参照）
 
 | Markdown | HTML |

@@ -289,31 +289,6 @@
       border-bottom: none;
     }
 
-    /* === Table === */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 24px 0;
-    }
-
-    thead th {
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-light);
-      padding: 12px 16px;
-      border-bottom: 2px solid var(--border);
-      text-align: left;
-    }
-
-    tbody td {
-      font-size: 14px;
-      color: var(--text-secondary);
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border-light);
-    }
-
     /* === Workflow === */
     .workflow {
       background: var(--bg-card);
@@ -370,6 +345,269 @@
       align-self: center;
     }
 
+    /* === Stepper === */
+    .stepper {
+      margin: 24px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .stepper-item {
+      display: flex;
+      gap: 20px;
+      position: relative;
+      padding-bottom: 24px;
+    }
+
+    .stepper-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .stepper-item::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 36px;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .stepper-item:last-child::before {
+      display: none;
+    }
+
+    .stepper-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stepper-content {
+      font-size: 15px;
+      color: var(--text-secondary);
+      padding-top: 5px;
+    }
+
+    /* === Architecture Diagram === */
+    .arch-diagram {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 32px;
+      margin: 32px 0;
+    }
+
+    .arch-diagram .diagram-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .arch-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .arch-group {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 32px 24px 24px;
+      position: relative;
+    }
+
+    .arch-group-label {
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: var(--bg-card);
+      padding: 0 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+    }
+
+    .arch-panels {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .arch-panel {
+      background: var(--bg-warm);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 28px;
+      text-align: center;
+      min-width: 140px;
+      flex: 1;
+      max-width: 200px;
+    }
+
+    .arch-panel-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .arch-panel-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .arch-arrow {
+      font-size: 20px;
+      color: var(--text-light);
+    }
+
+    /* === Incident Card === */
+    .incident-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .incident-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+    }
+
+    .incident-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .incident-card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .incident-card-icon.critical {
+      background: #fef3ef;
+      color: var(--accent-red);
+    }
+
+    .incident-card-icon.moderate {
+      background: #fef8f0;
+      color: var(--accent-warm);
+    }
+
+    .incident-card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .incident-card-body {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .incident-card-meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .incident-meta-tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-light);
+      background: var(--bg-primary);
+      border-radius: 100px;
+      padding: 4px 12px;
+    }
+
+    /* === Table === */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 24px 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    thead th {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffffff;
+      background: #3a3a3a;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid rgba(255,255,255,0.1);
+      text-align: left;
+    }
+
+    thead th:last-child {
+      border-right: none;
+    }
+
+    tbody td {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+      border-right: 1px solid var(--border-light);
+    }
+
+    tbody td:last-child {
+      border-right: none;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: rgba(245,240,235,0.4);
+    }
+
+    tbody tr:nth-child(even) {
+      background: var(--bg-card);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    @media (max-width: 640px) {
+      .arch-panels { flex-direction: column; }
+      .arch-arrow { transform: rotate(90deg); }
+    }
+
     /* === Conclusion === */
     .conclusion {
       background: var(--bg-dark);
@@ -377,6 +615,14 @@
       padding: 48px;
       margin: 48px 0;
       color: #ffffff;
+    }
+
+    .conclusion-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      margin-bottom: 12px;
     }
 
     .conclusion h2 {
@@ -424,15 +670,15 @@
   <!-- Hero -->
   <div class="hero">
     <div class="hero-label">MEETING MINUTES</div>
-    <h1>会議タイトル</h1>
+    <h1>社内ポータル刷新 第3回定例</h1>
     <div class="hero-meta">
       <div class="hero-meta-item">
         <span class="meta-label">DATE</span>
-        2026年3月8日 14:00-15:00
+        2026年3月13日 14:00-15:10
       </div>
       <div class="hero-meta-item">
         <span class="meta-label">LOCATION</span>
-        会議室A / Teams
+        オンライン（Teams）
       </div>
     </div>
   </div>
@@ -443,117 +689,151 @@
       <div class="section-label">PARTICIPANTS</div>
       <h2>1. 参加者</h2>
       <div class="participants">
-        <span class="participant-tag facilitator">田中太郎（ファシリテーター）</span>
-        <span class="participant-tag">佐藤花子</span>
-        <span class="participant-tag">鈴木一郎</span>
-        <span class="participant-tag">高橋美咲</span>
+        <span class="participant-tag facilitator">山田（PM・ファシリテーター）</span>
+        <span class="participant-tag">鈴木（フロントエンド）</span>
+        <span class="participant-tag">佐藤（インフラ）</span>
+        <span class="participant-tag">李（UXデザイン・ゲスト）</span>
       </div>
     </div>
 
-    <!-- Section 2: Agenda -->
-    <div class="section">
-      <div class="section-label">AGENDA</div>
-      <h2>2. アジェンダ</h2>
-      <ul>
-        <li>進捗報告</li>
-        <li>課題の共有と対策</li>
-        <li>次回のアクション確認</li>
-      </ul>
-    </div>
-
-    <!-- Section 3: Discussion -->
-    <div class="section">
-      <div class="section-label">DISCUSSION</div>
-      <h2>3. 議論内容</h2>
-
-      <h3>3.1 進捗報告</h3>
-      <p>各担当者から進捗の報告がありました。</p>
-      <table>
-        <thead>
-          <tr>
-            <th>担当</th>
-            <th>タスク</th>
-            <th>進捗</th>
-            <th>備考</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>佐藤</td>
-            <td>要件定義</td>
-            <td>完了</td>
-            <td>レビュー済み</td>
-          </tr>
-          <tr>
-            <td>鈴木</td>
-            <td>設計書作成</td>
-            <td>80%</td>
-            <td>3/10完了予定</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>3.2 課題の共有</h3>
-      <div class="callout warning">
-        <p>テスト環境の準備が遅れており、スケジュールへの影響が懸念されます。</p>
-      </div>
-      <ul class="issue-list">
-        <li class="issue-item">課題1: テスト環境の構築が未完了（担当: 鈴木）</li>
-        <li class="issue-item">課題2: 外部APIの仕様変更への対応が必要（担当: 高橋）</li>
-      </ul>
-    </div>
-
-    <!-- Section 4: Decisions -->
+    <!-- Section 2: Decisions -->
     <div class="section">
       <div class="section-label">DECISIONS</div>
-      <h2>4. 決定事項</h2>
+      <h2>2. 決定事項</h2>
       <div class="decisions">
         <div class="decision-item">
           <div class="decision-icon">&#10003;</div>
-          <div class="decision-text">テスト環境は3/12までに構築を完了する</div>
+          <div class="decision-text">UIフレームワークは React + Tailwind CSS を採用</div>
         </div>
         <div class="decision-item">
           <div class="decision-icon">&#10003;</div>
-          <div class="decision-text">外部API変更の影響範囲を調査し、次回報告する</div>
+          <div class="decision-text">検索バックエンドに Elasticsearch を導入</div>
+        </div>
+        <div class="decision-item">
+          <div class="decision-icon">&#10003;</div>
+          <div class="decision-text">デザインカンプは Figma で作成、社内レビュー後に確定</div>
         </div>
       </div>
     </div>
 
-    <!-- Section 5: Action Items -->
+    <!-- Section 3: Action Items -->
     <div class="section">
       <div class="section-label">ACTION ITEMS</div>
-      <h2>5. 次回アクション</h2>
+      <h2>3. TODO</h2>
       <div class="action-items">
         <div class="action-item">
-          <div class="action-task">テスト環境の構築を完了する</div>
+          <div class="action-task">React + Tailwind CSS の技術検証環境を構築</div>
           <span class="action-owner">鈴木</span>
-          <span class="action-deadline">期限: 3/12</span>
+          <span class="action-deadline">期限: 3/20</span>
         </div>
         <div class="action-item">
-          <div class="action-task">外部API変更の影響範囲調査</div>
-          <span class="action-owner">高橋</span>
-          <span class="action-deadline">期限: 3/15</span>
+          <div class="action-task">Elasticsearch のライセンスおよび既存インフラとの互換性調査</div>
+          <span class="action-owner">佐藤</span>
+          <span class="action-deadline">期限: 3/27</span>
         </div>
         <div class="action-item">
-          <div class="action-task">設計書レビュー会の日程調整</div>
-          <span class="action-owner">田中</span>
-          <span class="action-deadline">期限: 3/10</span>
+          <div class="action-task">トップページのデザインカンプ初稿を Figma で作成</div>
+          <span class="action-owner">李</span>
+          <span class="action-deadline">期限: 3/25</span>
+        </div>
+        <div class="action-item">
+          <div class="action-task">ステークホルダー向け中間報告資料の作成</div>
+          <span class="action-owner">山田</span>
+          <span class="action-deadline">期限: 3/28</span>
         </div>
       </div>
     </div>
 
-    <!-- Next Meeting -->
+    <!-- Section 4: Discussion -->
+    <div class="section">
+      <div class="section-label">DISCUSSION</div>
+      <h2>4. 議題</h2>
+
+      <h3>4.1 UIフレームワーク選定</h3>
+      <p>React + Tailwind CSS の採用を決定。既存の社内ツールが React ベースであり、学習コストを抑えられることが最大の理由である。Vue.js も候補に挙がったが、社内ナレッジの不足から見送り。</p>
+      <div class="arch-diagram">
+        <div class="diagram-title">採用技術スタック</div>
+        <div class="arch-container">
+          <div class="arch-panels">
+            <div class="arch-panel">
+              <div class="arch-panel-label">FRAMEWORK</div>
+              <div class="arch-panel-name">React</div>
+            </div>
+            <div class="arch-panel">
+              <div class="arch-panel-label">CSS</div>
+              <div class="arch-panel-name">Tailwind CSS</div>
+            </div>
+            <div class="arch-panel">
+              <div class="arch-panel-label">DESIGN</div>
+              <div class="arch-panel-name">Figma</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>李氏からは Tailwind CSS のデザインシステムとの親和性について説明があった。Figma で定義したカラーやスペーシングのトークンをそのまま CSS 変数として取り込めるため、デザイナーとエンジニア間で定義がずれる問題を解消できる。</p>
+
+      <h3>4.2 検索機能の技術選定</h3>
+      <p>全文検索バックエンドとして Elasticsearch を導入する方針。現行ポータルの SQL LIKE 検索ではレスポンスタイムが 3〜5 秒かかっており、改善要望が多い。</p>
+      <div class="stepper">
+        <div class="stepper-item">
+          <div class="stepper-number">1</div>
+          <div class="stepper-content">現行: SQL LIKE 検索 — レスポンスタイム 3〜5 秒</div>
+        </div>
+        <div class="stepper-item">
+          <div class="stepper-number">2</div>
+          <div class="stepper-content">移行先: Amazon OpenSearch Service（Elasticsearch）</div>
+        </div>
+        <div class="stepper-item">
+          <div class="stepper-number">3</div>
+          <div class="stepper-content">目標: レスポンスタイム 200ms 以内、追加コスト月額約 3 万円</div>
+        </div>
+      </div>
+
+      <h3>4.3 デザイン方針の共有</h3>
+      <p>李氏よりデザイン方針の説明。ユーザーリサーチの結果、現行ポータルに対して「情報が多すぎてどこを見ればよいかわからない」という声が全体の 68% を占めた。</p>
+      <div class="incident-cards">
+        <div class="incident-card">
+          <div class="incident-card-header">
+            <div class="incident-card-icon moderate">&#9670;</div>
+            <div class="incident-card-title">方針: ダッシュボード型トップページ</div>
+          </div>
+          <div class="incident-card-body">
+            部署・役職に応じた情報のパーソナライズを行い、各ユーザーに必要な情報だけを表示する。ナビゲーションはグローバルヘッダーに集約し、階層は最大 2 段階。
+          </div>
+          <div class="incident-card-meta">
+            <span class="incident-meta-tag">パーソナライズ</span>
+            <span class="incident-meta-tag">階層: 最大2段</span>
+          </div>
+        </div>
+        <div class="incident-card">
+          <div class="incident-card-header">
+            <div class="incident-card-icon moderate">&#9670;</div>
+            <div class="incident-card-title">方針: アクセシビリティ対応</div>
+          </div>
+          <div class="incident-card-body">
+            カラーパレットはコーポレートカラーのブルー基調で、アクセシビリティ基準 WCAG AA を満たすコントラスト比を確保する。
+          </div>
+          <div class="incident-card-meta">
+            <span class="incident-meta-tag">WCAG AA 準拠</span>
+            <span class="incident-meta-tag">ブルー基調</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Next Meeting -->
     <div class="section">
       <div class="conclusion">
-        <h2>次回会議</h2>
-        <p>2026年3月15日（金）14:00-15:00 / 会議室A</p>
+        <div class="conclusion-label">NEXT MEETING</div>
+        <h2>5. 次回予定</h2>
+        <p>2026年3月27日（金）14:00〜 / 議題: 技術検証結果の共有、デザインカンプレビュー</p>
       </div>
     </div>
   </div>
 
   <!-- Footer -->
   <div class="footer">
-    <p>会議タイトル 議事録 &mdash; 2026年3月8日</p>
+    <p>社内ポータル刷新 第3回定例 議事録 &mdash; 2026年3月13日</p>
   </div>
 </body>
 </html>
