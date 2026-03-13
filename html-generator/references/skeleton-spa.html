@@ -532,8 +532,12 @@
     /* === Table === */
     .page-detail table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
       margin: 24px 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
     }
 
     .page-detail thead th {
@@ -541,17 +545,40 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: var(--text-light);
-      padding: 10px 14px;
-      border-bottom: 2px solid var(--border);
+      color: var(--text-primary);
+      background: #ece5dd;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border-light);
       text-align: left;
     }
 
+    .page-detail thead th:last-child {
+      border-right: none;
+    }
+
     .page-detail tbody td {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-secondary);
-      padding: 10px 14px;
+      padding: 12px 16px;
       border-bottom: 1px solid var(--border-light);
+      border-right: 1px solid var(--border-light);
+    }
+
+    .page-detail tbody td:last-child {
+      border-right: none;
+    }
+
+    .page-detail tbody tr:nth-child(odd) {
+      background: rgba(245,240,235,0.1);
+    }
+
+    .page-detail tbody tr:nth-child(even) {
+      background: var(--bg-card);
+    }
+
+    .page-detail tbody tr:last-child td {
+      border-bottom: none;
     }
 
     /* === Callout === */
