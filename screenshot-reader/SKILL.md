@@ -1,6 +1,6 @@
 ---
 name: screenshot-reader
-description: スクリーンショットのファイルを特定するスキル。C:\Users\admin\Pictures\Screenshots フォルダから最新の画像を特定しファイル名を表示する。画像の読み込みはユーザーの調査依頼時に初めて行う。「スクショ」「スクリーンショット」「画面キャプチャ」「/screenshot-reader」と依頼されたときに使用する。
+description: スクリーンショットのファイルを特定するスキル。C:\Users\admin\Pictures\Screenshots フォルダから最新の画像を特定しファイル名を表示する。画像の読み込みはユーザーの調査依頼時に初めて行う。ユーザーのメッセージに「スクショ」「スクリーンショット」「画面キャプチャ」「/screenshot-reader」というキーワードが含まれていたら、文脈を問わず必ず使用する。例:「スクショ見て」「エラーが出てる、スクショ見て」「このスクショのログ確認して」「スクリーンショット撮ったから確認して」など。
 ---
 
 # Screenshot Reader
@@ -21,6 +21,9 @@ description: スクリーンショットのファイルを特定するスキル�
 1. Bash で `ls -t "C:/Users/admin/Pictures/Screenshots/"*.png | head -1` を実行して最新ファイルのパスを特定
 2. そのまま Read で画像を読み込む
 3. 画像の内容に基づいて調査・回答する
+
+## 音声通知
+- このスキル実行時はVOICEVOX通知をスキップする
 
 ## 引数の扱い
 
